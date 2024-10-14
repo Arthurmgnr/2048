@@ -1,3 +1,4 @@
+import core.Plateau;
 import gui.Game;
 
 import java.awt.*;
