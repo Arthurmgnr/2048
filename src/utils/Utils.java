@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Utils {
     // Recupere les dimensions de l'ecran
-    private static double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    private static double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    private static int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 //    private static double screenWidth = 1280;
 //    private  static double screenHeight = 720;
 //    private static double screenWidth = 1440;
@@ -21,35 +21,21 @@ public class Utils {
 //    private  static double screenHeight = 768;
 
     // Dimensions de la fenetre
-    public static int frameWidth = (int) (screenWidth * 0.5);
-    public static int frameHeight = (int) (screenHeight * 0.8);
+    private static int frameDimension = Math.min(screenWidth, screenHeight);
+    public static int frameHeight = Math.min((int) (frameDimension * 0.8), 1000);
+    public static int frameWidth = Math.min((int) (frameHeight * 1.5), 800);
 
     // Coordonnees de la fenetre pour qu'elle s'affiche au centre a l'ecran
-    public static int frameX = (int) ((screenWidth - frameWidth) / 2);
-    public static int frameY = (int) ((screenHeight - frameHeight) / 2);
+    public static int frameX = (int) (screenWidth - frameWidth) / 2;
+    public static int frameY = (int) (screenHeight - frameHeight) / 2;
 
     // Permet de centrer un element horizontalement
-    /*
-    CHANGER CETTE FONCTION POUR PASSER EN PARAMETRE LES BONNES CHOSES
-     */
-    public static int getFrameX(int size, int type) {
-        switch (type) {
-            // Au centre de la page
-            case 0:
-                return (frameWidth - size) / 2;
-            // Au centre dans la partie gauche de la page
-            case 1:
-                return (frameWidth / 2 - size) / 2;
-            // Au centre dans la partie droite de la page
-            case 2:
-                return frameWidth / 2 + (frameWidth / 2 - size) / 2;
-            default:
-                return 0;
-        }
+    public static int getFrameX(int sizeElement, int width) {
+        return (width - sizeElement) / 2;
     }
 
     // Dimension des cotes du plateau de jeu
-    private static int largeurPlateau = (int) (Utils.frameWidth - 0.05 * Utils.frameWidth);
+    private static int largeurPlateau = Math.min((int) (Utils.frameWidth - 0.05 * Utils.frameWidth), 500);
     private static int hauteurPlateau = (int) (Utils.frameHeight - 0.2 * Utils.frameHeight - 0.05 * Utils.frameHeight);
     public static int cotePlateau = Math.min(largeurPlateau, hauteurPlateau);
     public static int arrondiPlateau = 10 + (int) (0.02 * Utils.cotePlateau);
@@ -83,7 +69,9 @@ public class Utils {
     }
 
     public static int getSizeText(int valeur) {
-        if (valeur == 2 || valeur == 4) return 55;
-        else return 2;
+        if (valeur == 2 || valeur == 4 || valeur == 8 || valeur == 16 || valeur == 32 || valeur == 64) return 55;
+        else if (valeur == 128 || valeur == 256 || valeur == 512) return 45;
+        else if (valeur == 1024 || valeur == 2048) return 35;
+        else return 30;
     }
 }

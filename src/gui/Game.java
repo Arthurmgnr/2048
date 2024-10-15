@@ -5,6 +5,8 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
 
@@ -25,33 +27,46 @@ public class Game extends JFrame {
         // Gestionnaire de placement
         myContentPane = new MonPanel(this);
         myContentPane.setLayout(null);
+        myContentPane.setFocusable(true);
         setContentPane(myContentPane);
 
         // Label 2048
         l2048 = new JLabel("2048");
         l2048.setFont(new Font("Arial", Font.BOLD, 30));
         l2048.setSize(l2048.getPreferredSize());
-//        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, 0), 100);
-        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, 0), (int) (0.02 * Utils.frameHeight));
+        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.02 * Utils.frameHeight));
         myContentPane.add(l2048);
 
         // Label Score
         lScore = new JLabel("Score");
         lScore.setFont(new Font("Arial", Font.BOLD, 24));
         lScore.setSize(lScore.getPreferredSize());
-//        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, 1), 200);
-        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, 1), (int) (0.1 * Utils.frameHeight));
+        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, Utils.frameWidth / 2), (int) (0.1 * Utils.frameHeight));
         myContentPane.add(lScore);
 
         // Label BestScore
         lBestScore = new JLabel("Best Score");
         lBestScore.setFont(new Font("Arial", Font.BOLD, 24));
         lBestScore.setSize(lBestScore.getPreferredSize());
-//        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, 2), 200);
-        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, 2), (int) (0.1 * Utils.frameHeight));
+        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.1 * Utils.frameHeight));
         myContentPane.add(lBestScore);
 
+        myContentPane.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
 
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                formKeyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     public void dessiner(Graphics g) {
@@ -72,5 +87,18 @@ public class Game extends JFrame {
 
         // On afficher l'image mémoire à l'écran
         g.drawImage(offscreen, 0, 0, null);
+    }
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN ) {
+            plateau.deplacement("DOWN");
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP ) {
+            plateau.deplacement("UP");
+        } else if (evt.getKeyCode() == KeyEvent.VK_LEFT ) {
+            plateau.deplacement("LEFT");
+        } else if (evt.getKeyCode() == KeyEvent.VK_RIGHT ) {
+            plateau.deplacement("RIGHT");
+        }
+        myContentPane.repaint();
     }
 }

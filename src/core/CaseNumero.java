@@ -29,14 +29,14 @@ public class CaseNumero extends Case {
                 Utils.arrondiCase,
                 Utils.arrondiCase
         );
-        g.setFont(new Font("Arial", Font.BOLD, 55));
+        g.setFont(new Font("Arial", Font.BOLD, Utils.getSizeText(valeur)));
         g.setColor(Utils.getColorText(valeur));
         g.drawString(
                 String.valueOf(valeur),
                 x - g.getFontMetrics().stringWidth(String.valueOf(valeur)) / 2 + Utils.coteCase / 2,
                 y + g.getFontMetrics().getAscent() / 2 + Utils.coteCase / 2
         );
-        // UTILISER getFrameX DE UTILS
+        System.out.print(valeur);
     }
 
     public int getValeur() {

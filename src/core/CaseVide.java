@@ -26,5 +26,6 @@ public class CaseVide extends Case {
                 Utils.arrondiCase,
                 Utils.arrondiCase
         );
+        System.out.print("∅");
     }
 }

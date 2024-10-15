@@ -13,4 +13,12 @@ public abstract class Case {
     public abstract void deplacement();
 
     public abstract void afficher(Graphics g);
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
