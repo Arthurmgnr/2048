@@ -2,23 +2,12 @@ package utils;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     // Recupere les dimensions de l'ecran
     private static int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-//    private static double screenWidth = 1280;
-//    private  static double screenHeight = 720;
-//    private static double screenWidth = 1440;
-//    private  static double screenHeight = 900;
-//    private static double screenWidth = 1680;
-//    private  static double screenHeight = 1050;
-//    private static double screenWidth = 1920;
-//    private  static double screenHeight = 1080;
-//    private static double screenWidth = 1200;
-//    private  static double screenHeight = 800;
-//    private static double screenWidth = 1024;
-//    private  static double screenHeight = 768;
 
     // Dimensions de la fenetre
     private static int frameDimension = Math.min(screenWidth, screenHeight);
@@ -53,19 +42,21 @@ public class Utils {
             return new Color(0xf9f6f2);
         }
     }
+    private static Map<Integer, Color> dicoColorCase = new HashMap<>() {{
+        put(2, new Color(0xeee4da));
+        put(4, new Color(0xede0c8));
+        put(8, new Color(0xf2b179));
+        put(16, new Color(0xf59563));
+        put(32, new Color(0xf67c5f));
+        put(64, new Color(0xf65e3b));
+        put(128, new Color(0xedcf72));
+        put(256, new Color(0xedcc61));
+        put(512, new Color(0xedc850));
+        put(1024, new Color(0xedc53f));
+        put(2048, new Color(0xedc22e));
+    }};
     public static Color getColorCase(int valeur) {
-        if (valeur == 2) return new Color(0xeee4da);
-        else if (valeur == 4) return new Color(0xede0c8);
-        else if (valeur == 8) return new Color(0xf2b179);
-        else if (valeur == 16) return new Color(0xf59563);
-        else if (valeur == 32) return new Color(0xf67c5f);
-        else if (valeur == 64) return new Color(0xf65e3b);
-        else if (valeur == 128) return new Color(0xedcf72);
-        else if (valeur == 256) return new Color(0xedcc61);
-        else if (valeur == 512) return new Color(0xedc850);
-        else if (valeur == 1024) return new Color(0xedc53f);
-        else if (valeur == 2048) return new Color(0xedc22e);
-        else return new Color(0, 0, 0);
+        return dicoColorCase.getOrDefault(valeur, new Color(0, 0, 0));
     }
 
     public static int getSizeText(int valeur) {
@@ -74,4 +65,40 @@ public class Utils {
         else if (valeur == 1024 || valeur == 2048) return 35;
         else return 30;
     }
+
+    private static Map<Integer, String> dicoMessageTuile = new HashMap<>() {{
+        put(2, "c'est un bon début !");
+        put(4, "tu peux encore mieux faire !");
+        put(8, "tu es sur la bonne voie !");
+        put(16, "continue d'avancer !");
+        put(32, "tu es en train de progresser !");
+        put(64, "tu commences à bien t'en sortir !");
+        put(128, "la victoire est proche !");
+        put(256, "tu y es presque !");
+        put(512, "tu fais de super progrès !");
+        put(1024, "tu as déjà fait un long chemin !");
+
+        put(4096, "tu es en train de réaliser l'impossible !");
+        put(8192, "tes compétences sont incroyables !");
+        put(16384, "tu as dépassé toutes les attentes !");
+        put(32768, "tu es un véritable maître du jeu !");
+        put(65536, "tu es vraiment surhumain !");
+        put(131072, "tu écris l'histoire du 2048 !");
+    }};
+    public static String getMessageFin(boolean perdu, boolean atteint2048, int tuile) {
+        // Le joueur a atteint 2048
+        if (!perdu && atteint2048) {
+            return "Bravo, tu as atteint 2048, mais ne t'arrêtes pas en si bon chemin !";
+        }
+        // Le joueur n'a pas atteint 2048
+        else if (perdu && !atteint2048) {
+            return "Dommage... tu n'as pas atteint 2048, mais " + dicoMessageTuile.get(tuile);
+        }
+        // Le joueur a depasse 2048
+        else {
+            return "Bravo, " + dicoMessageTuile.get(tuile);
+        }
+    }
 }
+
+
