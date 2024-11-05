@@ -47,10 +47,10 @@ public class Plateau {
             cases.add(ligne);
         }
 
-//        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(2), new CaseNumero(4), new CaseNumero(8), new CaseNumero(16)));
-//        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseNumero(16), new CaseNumero(8), new CaseNumero(4), new CaseNumero(2)));
-//        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseNumero(32), new CaseNumero(4), new CaseNumero(8), new CaseNumero(16)));
-//        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(1024), new CaseNumero(1024), new CaseNumero(8), new CaseVide()));
+//        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(16), new CaseNumero(8), new CaseNumero(4), new CaseNumero(4)));
+//        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseVide(), new CaseVide(), new CaseVide(), new CaseVide()));
+//        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseVide(), new CaseVide(), new CaseVide(), new CaseVide()));
+//        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseVide(), new CaseVide(), new CaseVide(), new CaseVide()));
 //        cases.add(ligne1);
 //        cases.add(ligne2);
 //        cases.add(ligne3);
@@ -343,7 +343,7 @@ public class Plateau {
         return score;
     }
 
-    public int getCoups() {
+    public int getNbCoups() {
         return nbCoups;
     }
 

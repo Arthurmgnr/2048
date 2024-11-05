@@ -2,21 +2,23 @@ package gui;
 
 import core.Plateau;
 import utils.Utils;
+import panel.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
-
-//    private JPanel myContentPane;
-    private MonPanel myContentPane;
+    private GamePanel panelGame;
     private JLabel l2048;
     private JLabel lScore;
     private JLabel lScoreJoueur;
     private JLabel lBestScore;
     private JLabel lBestScoreJoueur;
+    private JLabel lMoves;
+    private JLabel lMovesNb;
     private Plateau plateau = new Plateau();
 
     public Game() {
@@ -27,59 +29,70 @@ public class Game extends JFrame {
         setResizable(false);
 
         // Gestionnaire de placement
-        myContentPane = new MonPanel(this);
-        myContentPane.setLayout(null);
-        myContentPane.setFocusable(true);
-        setContentPane(myContentPane);
+        panelGame = new GamePanel(this);
+        panelGame.setLayout(null);
+        panelGame.setFocusable(true);
+        setContentPane(panelGame);
 
         // Label 2048
         l2048 = new JLabel("2048");
         l2048.setFont(new Font("Arial", Font.BOLD, 30));
         l2048.setSize(l2048.getPreferredSize());
         l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.02 * Utils.frameHeight));
-        myContentPane.add(l2048);
+        panelGame.add(l2048);
 
         // Label Score
         lScore = new JLabel("Score");
         lScore.setFont(new Font("Arial", Font.BOLD, 24));
         lScore.setSize(lScore.getPreferredSize());
         lScore.setLocation(Utils.getFrameX(lScore.getSize().width, Utils.frameWidth / 2), (int) (0.1 * Utils.frameHeight));
-        myContentPane.add(lScore);
+        panelGame.add(lScore);
 
         // Label Score Joueur
         lScoreJoueur = new JLabel(String.valueOf(plateau.getScore()));
         lScoreJoueur.setFont(new Font("Arial", Font.BOLD, 24));
         lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
         lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, Utils.frameWidth / 2), (int) (0.13 * Utils.frameHeight));
-        myContentPane.add(lScoreJoueur);
+        panelGame.add(lScoreJoueur);
 
         // Label BestScore
         lBestScore = new JLabel("Best Score");
         lBestScore.setFont(new Font("Arial", Font.BOLD, 24));
         lBestScore.setSize(lBestScore.getPreferredSize());
         lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.1 * Utils.frameHeight));
-        myContentPane.add(lBestScore);
+        panelGame.add(lBestScore);
 
-        myContentPane.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
+        // Label BestScoreJoueur
+        lBestScoreJoueur = new JLabel(String.valueOf(5555));
+        lBestScoreJoueur.setFont(new Font("Arial", Font.BOLD, 24));
+        lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
+        lBestScoreJoueur.setLocation(Utils.getFrameX(lBestScoreJoueur.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.13 * Utils.frameHeight));
+        panelGame.add(lBestScoreJoueur);
 
-            }
+        // Label Moves
+        lMoves = new JLabel("Moves");
+        lMoves.setFont(new Font("Arial", Font.BOLD, 24));
+        lMoves.setSize(lMoves.getPreferredSize());
+        lMoves.setLocation(Utils.getFrameX(lMoves.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+        panelGame.add(lMoves);
 
+        // Label MovesNb
+        lMovesNb = new JLabel(String.valueOf(plateau.getNbCoups()));
+        lMovesNb.setFont(new Font("Arial", Font.BOLD, 24));
+        lMovesNb.setSize(lMovesNb.getPreferredSize());
+        lMovesNb.setLocation(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
+        panelGame.add(lMovesNb);
+
+        panelGame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 formKeyPressed(e);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
             }
         });
     }
 
     public void dessiner(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Utils.white);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         plateau.afficher(g);
@@ -87,6 +100,14 @@ public class Game extends JFrame {
         lScoreJoueur.setText(String.valueOf(plateau.getScore()));
         lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
         lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, Utils.frameWidth / 2), (int) (0.13 * Utils.frameHeight));
+
+        lBestScoreJoueur.setText(String.valueOf(5555));
+        lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
+        lBestScoreJoueur.setLocation(Utils.getFrameX(lBestScoreJoueur.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.13 * Utils.frameHeight));
+
+        lMovesNb.setText(String.valueOf(plateau.getNbCoups()));
+        lMovesNb.setSize(lMovesNb.getPreferredSize());
+        lMovesNb.setLocation(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
     }
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
@@ -124,16 +145,16 @@ public class Game extends JFrame {
             }
         }
 
-        myContentPane.repaint();
+        panelGame.repaint();
     }
 
     public void gagne() {
-//        myContentPane.setFocusable(false);
+//        panelGame.setFocusable(false);
         System.out.println(Utils.getMessageFin(false, true, plateau.getBestTuile()));
     }
 
     public void perdre() {
         System.out.println(Utils.getMessageFin(true, plateau.getatteint2048(), plateau.getBestTuile()));
-        myContentPane.setFocusable(false);
+        panelGame.setFocusable(false);
     }
 }

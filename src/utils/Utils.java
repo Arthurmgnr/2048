@@ -33,6 +33,10 @@ public class Utils {
     public static int coteCase = (cotePlateau - 5 * margeCases) / 4;
     public static int arrondiCase = 10;
 
+    // Couleurs
+    public static Color white = new Color(252, 254, 254);
+    public static Color blue = new Color(30, 144, 255);
+
 
     // Cases
     public static Color getColorText(int valeur) {
