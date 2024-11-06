@@ -1,21 +1,21 @@
 package panel;
 
-import gui.Home;
+import gui.Login;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class HomePanel extends JPanel {
+public class LoginPanel extends JPanel {
     // Réference sur la fenêtre principale
-    private final Home home;
-    public HomePanel(Home home) {
-        this.home = home;
+    private final Login login;
+    public LoginPanel(Login login) {
+        this.login = login;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        home.dessiner(g);
+        login.dessiner(g);
     }
 }

@@ -8,18 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
-    private GamePanel panelGame;
-    private JLabel l2048;
-    private JLabel lScore;
-    private JLabel lScoreJoueur;
-    private JLabel lBestScore;
-    private JLabel lBestScoreJoueur;
-    private JLabel lMoves;
-    private JLabel lMovesNb;
-    private Plateau plateau = new Plateau();
+    private final GamePanel panelGame;
+    private final JLabel lScoreJoueur;
+    private final JLabel lBestScoreJoueur;
+    private final JLabel lMovesNb;
+    private final Plateau plateau = new Plateau();
 
     public Game() {
         // Parametres de la fenetre
@@ -35,28 +30,28 @@ public class Game extends JFrame {
         setContentPane(panelGame);
 
         // Label 2048
-        l2048 = new JLabel("2048");
+        JLabel l2048 = new JLabel("2048");
         l2048.setFont(new Font("Arial", Font.BOLD, 30));
         l2048.setSize(l2048.getPreferredSize());
         l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.02 * Utils.frameHeight));
         panelGame.add(l2048);
 
         // Label Score
-        lScore = new JLabel("Score");
+        JLabel lScore = new JLabel("Score");
         lScore.setFont(new Font("Arial", Font.BOLD, 24));
         lScore.setSize(lScore.getPreferredSize());
-        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, Utils.frameWidth / 2), (int) (0.1 * Utils.frameHeight));
+        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.1 * Utils.frameHeight));
         panelGame.add(lScore);
 
         // Label Score Joueur
         lScoreJoueur = new JLabel(String.valueOf(plateau.getScore()));
         lScoreJoueur.setFont(new Font("Arial", Font.BOLD, 24));
         lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
-        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, Utils.frameWidth / 2), (int) (0.13 * Utils.frameHeight));
+        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.13 * Utils.frameHeight));
         panelGame.add(lScoreJoueur);
 
         // Label BestScore
-        lBestScore = new JLabel("Best Score");
+        JLabel lBestScore = new JLabel("Best Score");
         lBestScore.setFont(new Font("Arial", Font.BOLD, 24));
         lBestScore.setSize(lBestScore.getPreferredSize());
         lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.1 * Utils.frameHeight));
@@ -70,7 +65,7 @@ public class Game extends JFrame {
         panelGame.add(lBestScoreJoueur);
 
         // Label Moves
-        lMoves = new JLabel("Moves");
+        JLabel lMoves = new JLabel("Moves");
         lMoves.setFont(new Font("Arial", Font.BOLD, 24));
         lMoves.setSize(lMoves.getPreferredSize());
         lMoves.setLocation(Utils.getFrameX(lMoves.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
@@ -99,7 +94,7 @@ public class Game extends JFrame {
 
         lScoreJoueur.setText(String.valueOf(plateau.getScore()));
         lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
-        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, Utils.frameWidth / 2), (int) (0.13 * Utils.frameHeight));
+        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.13 * Utils.frameHeight));
 
         lBestScoreJoueur.setText(String.valueOf(5555));
         lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
