@@ -71,18 +71,6 @@ public class Profile extends JFrame {
             }
         });
 
-        // Button Home
-        int widthHome = 50, heightHome = 50;
-        ImageIcon iconHome = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/home.png")));
-        JButtonWithIcon bHome = new JButtonWithIcon(Utils.resizeImage(iconHome, widthHome, heightHome), new Rectangle((int) (Utils.frameWidth - widthHome - 0.01 * Utils.frameWidth), (int) (0.01 * Utils.frameHeight), widthHome, heightHome));
-        profilePanel.add(bHome);
-        bHome.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                dispose();
-                new Home().setVisible(true);
-            }
-        });
 
         // --------------------
         // Avatar image
