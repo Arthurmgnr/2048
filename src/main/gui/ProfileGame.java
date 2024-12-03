@@ -4,10 +4,7 @@ import main.entities.User;
 import main.entities.UserGamesDetails;
 import main.gui.panels.ProfileGamePanel;
 import main.services.ProfileGameService;
-import main.utils.JButtonPersonalized;
-import main.utils.JButtonProfileGame;
-import main.utils.JButtonWithIcon;
-import main.utils.Utils;
+import main.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,10 +42,12 @@ public class ProfileGame extends JFrame {
         profileGamePanel.add(lAvatarImage);
 
         // Username
-        JLabel lUsername = new JLabel(username);
-        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
-        lUsername.setSize(lUsername.getPreferredSize());
-        lUsername.setLocation((int) (lAvatarImage.getWidth() + 0.02 * Utils.frameWidth), (int) ((lAvatarImage.getHeight() - lUsername.getPreferredSize().getHeight()) / 2 + 0.01 * Utils.frameHeight));
+//        JLabel lUsername = new JLabel(username);
+//        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
+//        lUsername.setSize(lUsername.getPreferredSize());
+//        lUsername.setLocation((int) (lAvatarImage.getWidth() + 0.02 * Utils.frameWidth), (int) ((lAvatarImage.getHeight() - lUsername.getPreferredSize().getHeight()) / 2 + 0.01 * Utils.frameHeight));
+        JLabelPersonalized lUsername = new JLabelPersonalized(username, new Font("Arial", Font.BOLD, 20));
+        lUsername.setLocation2(Utils.getFrameX(lUsername.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.35 * Utils.frameHeight));
         profileGamePanel.add(lUsername);
 
         // Label Welcome
@@ -75,17 +74,21 @@ public class ProfileGame extends JFrame {
         }
 
         // Label BestScore
-        JLabel lBestScore = new JLabel("Best Score");
-        lBestScore.setFont(new Font("Arial", Font.BOLD, 40));
-        lBestScore.setSize(lBestScore.getPreferredSize());
-        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, Utils.frameWidth), (int) (0.15 * Utils.frameHeight));
+//        JLabel lBestScore = new JLabel("Best Score");
+//        lBestScore.setFont(new Font("Arial", Font.BOLD, 40));
+//        lBestScore.setSize(lBestScore.getPreferredSize());
+//        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, Utils.frameWidth), (int) (0.15 * Utils.frameHeight));
+        JLabelPersonalized lBestScore = new JLabelPersonalized("Best Score", new Font("Arial", Font.BOLD, 40));
+        lBestScore.setLocation2(Utils.getFrameX(lBestScore.getSize().width, Utils.frameWidth), (int) (0.15 * Utils.frameHeight));
         profileGamePanel.add(lBestScore);
 
         // Label BestScoreJoueur
-        JLabel lBestScoreJoueur = new JLabel(String.valueOf(userGamesDetails.getBestScore()));
-        lBestScoreJoueur.setFont(new Font("Arial", Font.BOLD, 35));
-        lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
-        lBestScoreJoueur.setLocation(Utils.getFrameX(lBestScoreJoueur.getSize().width, Utils.frameWidth), (int) (0.25 * Utils.frameHeight));
+//        JLabel lBestScoreJoueur = new JLabel(String.valueOf(userGamesDetails.getBestScore()));
+//        lBestScoreJoueur.setFont(new Font("Arial", Font.BOLD, 35));
+//        lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
+//        lBestScoreJoueur.setLocation(Utils.getFrameX(lBestScoreJoueur.getSize().width, Utils.frameWidth), (int) (0.25 * Utils.frameHeight));
+        JLabelPersonalized lBestScoreJoueur = new JLabelPersonalized(String.valueOf(userGamesDetails.getBestScore()), new Font("Arial", Font.BOLD, 35));
+        lBestScoreJoueur.setLocation2(Utils.getFrameX(lBestScoreJoueur.getSize().width, Utils.frameWidth), (int) (0.25 * Utils.frameHeight));
         profileGamePanel.add(lBestScoreJoueur);
 
         // Button Play
@@ -116,8 +119,9 @@ public class ProfileGame extends JFrame {
 
         // Button Home
         int width = 50, height = 50;
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/home.png")));
-        JButtonWithIcon bHome = new JButtonWithIcon(Utils.resizeImage(icon, width, height), new Rectangle((int) (Utils.frameWidth - width - 0.01 * Utils.frameWidth), (int) (0.01 * Utils.frameHeight), width, height));
+//        ImageIcon icon = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/home.png")));
+        ImageIcon icon = new ImageIcon("src/main/ressources/home.png");
+        JButtonWithIcon bHome = new JButtonWithIcon(Utils.resizeImage(icon, width, height), new Rectangle((int) (Utils.frameWidth - width - 0.02 * Utils.frameWidth), (int) (0.01 * Utils.frameHeight), width, height));
         profileGamePanel.add(bHome);
         bHome.addMouseListener(new MouseAdapter() {
             @Override

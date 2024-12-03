@@ -67,10 +67,10 @@ public class Main {
 //        }
 
         SwingUtilities.invokeLater(() -> {
-            Home frame = new Home();
+//            Home frame = new Home();
 //            Register frame = new Register();
 //            Login frame = new Login();
-//            ProfileGame frame = new ProfileGame("TestUser", false, true);
+            ProfileGame frame = new ProfileGame("TestUser", false, true);
 //            Profile frame = new Profile("TestUser");
 //            EditProfile frame = new EditProfile("TestUser");
 //            Game frame = new Game("TestUser");

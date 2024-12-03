@@ -4,6 +4,7 @@ import main.constants.MessageConstants;
 import main.gui.panels.LoginPanel;
 import main.services.LoginService;
 import main.utils.JButtonPersonalized;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 
 import javax.swing.*;
@@ -29,25 +30,30 @@ public class Login extends JFrame {
         setContentPane(loginPanel);
 
         // Label Login
-        JLabel lLogin = new JLabel("Login");
-        lLogin.setFont(new Font("Arial", Font.BOLD, 50));
-        lLogin.setSize(lLogin.getPreferredSize());
-        lLogin.setLocation(Utils.getFrameX(lLogin.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+//        JLabel lLogin = new JLabel("Login");
+//        lLogin.setFont(new Font("Arial", Font.BOLD, 50));
+//        lLogin.setSize(lLogin.getPreferredSize());
+//        lLogin.setLocation(Utils.getFrameX(lLogin.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+        JLabelPersonalized lLogin = new JLabelPersonalized("Login", new Font("Arial", Font.BOLD, 50));
+        lLogin.setLocation2(Utils.getFrameX(lLogin.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
         loginPanel.add(lLogin);
 //        System.out.println(lLogin.getFontMetrics(lLogin.getFont()).charWidth('W'));
 //        System.out.println(lLogin.getFontMetrics(lLogin.getFont()).getHeight());
 
         // Label Error
-        JLabel lError = new JLabel("Username");
-        lError.setFont(new Font("Arial", Font.BOLD, 14));
+//        JLabel lError = new JLabel("Username");
+//        lError.setFont(new Font("Arial", Font.BOLD, 14));
+        JLabelPersonalized lError = new JLabelPersonalized("", new Font("Arial", Font.BOLD, 14));
         lError.setForeground(Color.RED);
         loginPanel.add(lError);
 
         // Label Username
-        JLabel lUsername = new JLabel("Username");
-        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
-        lUsername.setSize(lUsername.getPreferredSize());
-        lUsername.setLocation(Utils.getFrameX(lUsername.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.45 * Utils.frameHeight));
+//        JLabel lUsername = new JLabel("Username");
+//        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
+//        lUsername.setSize(lUsername.getPreferredSize());
+//        lUsername.setLocation(Utils.getFrameX(lUsername.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.45 * Utils.frameHeight));
+        JLabelPersonalized lUsername = new JLabelPersonalized("Username", new Font("Arial", Font.BOLD, 20));
+        lUsername.setLocation2(Utils.getFrameX(lUsername.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.45 * Utils.frameHeight));
         loginPanel.add(lUsername);
 
         // TextField Username
@@ -80,9 +86,8 @@ public class Login extends JFrame {
                     dispose();
                     new ProfileGame(username, false, true).setVisible(true);
                 } else {
-                    lError.setText(message.getText());
-                    lError.setSize(lError.getPreferredSize());
-                    lError.setLocation(Utils.getFrameX(lError.getSize().width, (int) (Utils.frameWidth * 1.3)), (int) (0.5 * Utils.frameHeight));
+                    lError.setText2(message.getText());
+                    lError.setLocation2(Utils.getFrameX(lError.getSize().width, (int) (1.3 * Utils.frameWidth)), (int) (0.5 * Utils.frameHeight));
                     timer.start();
                 }
             }

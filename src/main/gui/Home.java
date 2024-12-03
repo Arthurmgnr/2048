@@ -2,6 +2,7 @@ package main.gui;
 
 import main.gui.panels.HomePanel;
 import main.utils.JButtonPersonalized;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Home extends JFrame {
-    private final JLabel lRegister;
+    private final JLabelPersonalized lRegister;
 
     public Home() {
         // Parametres de la fenetre
@@ -29,10 +30,12 @@ public class Home extends JFrame {
         setContentPane(homePanel);
 
         // Label 2048
-        JLabel l2048 = new JLabel("2048");
-        l2048.setFont(new Font("Arial", Font.BOLD, 50));
-        l2048.setSize(l2048.getPreferredSize());
-        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+//        JLabel l2048 = new JLabel("2048");
+//        l2048.setFont(new Font("Arial", Font.BOLD, 50));
+//        l2048.setSize(l2048.getPreferredSize());
+//        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+        JLabelPersonalized l2048 = new JLabelPersonalized("2048", new Font("Arial", Font.BOLD, 50));
+        l2048.setLocation2(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
         homePanel.add(l2048);
 
         // Button Login
@@ -47,11 +50,13 @@ public class Home extends JFrame {
         });
 
         // Label Register
-        lRegister = new JLabel("Register");
-        lRegister.setFont(new Font("Arial", Font.BOLD, 30));
-        lRegister.setSize(lRegister.getPreferredSize());
-        lRegister.setLocation(Utils.getFrameX(lRegister.getSize().width, Utils.frameWidth), (int) (0.6 * Utils.frameHeight));
+//        lRegister = new JLabel("Register");
+//        lRegister.setFont(new Font("Arial", Font.BOLD, 30));
+        lRegister = new JLabelPersonalized("Register", new Font("Arial", Font.BOLD, 30));
+        lRegister.setLocation2(Utils.getFrameX(lRegister.getSize().width, Utils.frameWidth), (int) (0.6 * Utils.frameHeight));
         homePanel.add(lRegister);
+
+
         lRegister.setForeground(Utils.blue);
         Font font = lRegister.getFont();
         Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes()); // (Map<TextAttribute, Object>) font.getAttributes();
@@ -76,6 +81,9 @@ public class Home extends JFrame {
                 lRegister.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
+
+//        lRegister.setSize(lRegister.getPreferredSize());
+//        lRegister.setLocation(Utils.getFrameX(lRegister.getSize().width, Utils.frameWidth), (int) (0.6 * Utils.frameHeight));
     }
 
     public void dessiner(Graphics g) {
