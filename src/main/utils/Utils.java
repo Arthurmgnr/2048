@@ -58,7 +58,7 @@ public class Utils {
             return new Color(0xf9f6f2);
         }
     }
-    private static Map<Integer, Color> dicoColorCase = new HashMap<>() {{
+    private static Map<Integer, Color> dicoColorCase = new HashMap<Integer, Color>() {{
         put(2, new Color(0xeee4da));
         put(4, new Color(0xede0c8));
         put(8, new Color(0xf2b179));
@@ -82,7 +82,7 @@ public class Utils {
         else return 30;
     }
 
-    private static Map<Integer, String> dicoMessageTuile = new HashMap<>() {{
+    private static Map<Integer, String> dicoMessageTuile = new HashMap<Integer, String>() {{
         put(2, "c'est un bon début !");
         put(4, "tu peux encore mieux faire !");
         put(8, "tu es sur la bonne voie !");
@@ -127,6 +127,7 @@ public class Utils {
         return Arrays.stream(listOfFiles)
                 .map(File::getPath)
 //                .map(File::getName)
+                .map(chemin -> chemin.replace("\\", "/"))
                 .sorted()
                 .collect(Collectors.toList());
     }
