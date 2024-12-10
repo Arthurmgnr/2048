@@ -19,6 +19,13 @@ public class Utils {
     public static int frameHeight = Math.min((int) (frameDimension * 0.8), 1000);
     public static int frameWidth = Math.min((int) (frameHeight * 1.5), 800);
 
+    public static void setFrameParameters(JFrame frame) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(frameX, frameY, frameWidth, frameHeight);
+        frame.setTitle("2048");
+        frame.setResizable(false);
+    }
+
     // Coordonnees de la fenetre pour qu'elle s'affiche au centre a l'ecran
     public static int frameX = (int) (screenWidth - frameWidth) / 2;
     public static int frameY = (int) (screenHeight - frameHeight) / 2;

@@ -70,8 +70,8 @@ public class Main {
 //            Home frame = new Home();
 //            Register frame = new Register();
 //            Login frame = new Login();
-            ProfileGame frame = new ProfileGame("TestUser", false, true);
-//            Profile frame = new Profile("TestUser");
+//            ProfileGame frame = new ProfileGame("TestUser", false, true);
+            Profile frame = new Profile("TestUser");
 //            EditProfile frame = new EditProfile("TestUser");
 //            Game frame = new Game("TestUser");
             frame.setVisible(true);

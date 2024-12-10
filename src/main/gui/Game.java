@@ -1,9 +1,9 @@
 package main.gui;
 
 import main.core.Plateau;
-import main.entities.User;
 import main.services.GameService;
 import main.utils.JButtonWithIcon;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 import main.gui.panels.GamePanel;
 
@@ -13,25 +13,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class Game extends JFrame {
     private final GameService gameService = new GameService();
     private final GamePanel panelGame;
-    private final JLabel lScoreJoueur;
-    private final JLabel lBestScoreJoueur;
-    private final JLabel lMovesNb;
+    private final JLabelPersonalized lScoreJoueur;
+    private final JLabelPersonalized lBestScoreJoueur;
+    private final JLabelPersonalized lMovesNb;
     private final Plateau plateau = new Plateau();
 
     public Game(String username) {
         // Parametres de la fenetre
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(Utils.frameX, Utils.frameY, Utils.frameWidth, Utils.frameHeight);
-        setTitle("2048");
-        setResizable(false);
+        Utils.setFrameParameters(this);
 
         // Gestionnaire de placement
         panelGame = new GamePanel(this);
@@ -53,75 +46,61 @@ public class Game extends JFrame {
         panelGame.add(lAvatarImage);
 
         // Username
-        JLabel lUsername = new JLabel(username);
-        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
-        lUsername.setSize(lUsername.getPreferredSize());
-        lUsername.setLocation((int) (lAvatarImage.getWidth() + 0.02 * Utils.frameWidth), (int) ((lAvatarImage.getHeight() - lUsername.getPreferredSize().getHeight()) / 2 + 0.01 * Utils.frameHeight));
+        JLabelPersonalized lUsername = new JLabelPersonalized(username, new Font("Arial", Font.BOLD, 20));
+        lUsername.setLocation2((int) (lAvatarImage.getWidth() + 0.02 * Utils.frameWidth), (int) ((lAvatarImage.getHeight() - lUsername.getPreferredSize().getHeight()) / 2 + 0.01 * Utils.frameHeight));
         panelGame.add(lUsername);
 
         // Label 2048
-        JLabel l2048 = new JLabel("2048");
-        l2048.setFont(new Font("Arial", Font.BOLD, 30));
-        l2048.setSize(l2048.getPreferredSize());
-        l2048.setLocation(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.02 * Utils.frameHeight));
+        JLabelPersonalized l2048 = new JLabelPersonalized("2048", new Font("Arial", Font.BOLD, 30));
+        l2048.setLocation2(Utils.getFrameX(l2048.getSize().width, Utils.frameWidth), (int) (0.02 * Utils.frameHeight));
         panelGame.add(l2048);
 
         // Label Score
-        JLabel lScore = new JLabel("Score");
-        lScore.setFont(new Font("Arial", Font.BOLD, 24));
-        lScore.setSize(lScore.getPreferredSize());
-        lScore.setLocation(Utils.getFrameX(lScore.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.1 * Utils.frameHeight));
+        JLabelPersonalized lScore = new JLabelPersonalized("Score", new Font("Arial", Font.BOLD, 24));
+        lScore.setLocation2(Utils.getFrameX(lScore.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.1 * Utils.frameHeight));
         panelGame.add(lScore);
 
         // Label Score Joueur
-        lScoreJoueur = new JLabel(String.valueOf(plateau.getScore()));
-        lScoreJoueur.setFont(new Font("Arial", Font.BOLD, 24));
-        lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
-        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.13 * Utils.frameHeight));
+        lScoreJoueur = new JLabelPersonalized(String.valueOf(plateau.getScore()), new Font("Arial", Font.BOLD, 24));
+        lScoreJoueur.setLocation2(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.13 * Utils.frameHeight));
         panelGame.add(lScoreJoueur);
 
         // Label BestScore
-        JLabel lBestScore = new JLabel("Best Score");
-        lBestScore.setFont(new Font("Arial", Font.BOLD, 24));
-        lBestScore.setSize(lBestScore.getPreferredSize());
-        lBestScore.setLocation(Utils.getFrameX(lBestScore.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.1 * Utils.frameHeight));
+        JLabelPersonalized lBestScore = new JLabelPersonalized("Best Score", new Font("Arial", Font.BOLD, 24));
+        lBestScore.setLocation2(Utils.getFrameX(lBestScore.getSize().width, (int) (1.5 * Utils.frameWidth)), (int) (0.1 * Utils.frameHeight));
         panelGame.add(lBestScore);
 
         // Label BestScoreJoueur
-        lBestScoreJoueur = new JLabel(String.valueOf(userBestScore));
-        lBestScoreJoueur.setFont(new Font("Arial", Font.BOLD, 24));
-        lBestScoreJoueur.setSize(lBestScoreJoueur.getPreferredSize());
-        lBestScoreJoueur.setLocation(Utils.getFrameX(lBestScoreJoueur.getSize().width, (int) (Utils.frameWidth * 1.5)), (int) (0.13 * Utils.frameHeight));
+        lBestScoreJoueur = new JLabelPersonalized(String.valueOf(userBestScore), new Font("Arial", Font.BOLD, 24));
+        lBestScoreJoueur.setLocation2(Utils.getFrameX(lBestScoreJoueur.getSize().width, (int) (1.5 * Utils.frameWidth)), (int) (0.13 * Utils.frameHeight));
         panelGame.add(lBestScoreJoueur);
 
         // Label Moves
-        JLabel lMoves = new JLabel("Moves");
-        lMoves.setFont(new Font("Arial", Font.BOLD, 24));
-        lMoves.setSize(lMoves.getPreferredSize());
-        lMoves.setLocation(Utils.getFrameX(lMoves.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
+        JLabelPersonalized lMoves = new JLabelPersonalized("Moves", new Font("Arial", Font.BOLD, 24));
+        lMoves.setLocation2(Utils.getFrameX(lMoves.getSize().width, Utils.frameWidth), (int) (0.1 * Utils.frameHeight));
         panelGame.add(lMoves);
 
         // Label MovesNb
-        lMovesNb = new JLabel(String.valueOf(plateau.getNbCoups()));
-        lMovesNb.setFont(new Font("Arial", Font.BOLD, 24));
-        lMovesNb.setSize(lMovesNb.getPreferredSize());
-        lMovesNb.setLocation(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
+        lMovesNb = new JLabelPersonalized(String.valueOf(plateau.getNbCoups()), new Font("Arial", Font.BOLD, 24));
+        lMovesNb.setLocation2(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
         panelGame.add(lMovesNb);
 
         // Button Exit
         int widthExit = 50, heightEdit = 50;
-        ImageIcon iconExit = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/exit.png")));
-        JButtonWithIcon bExit = new JButtonWithIcon(Utils.resizeImage(iconExit, widthExit, heightEdit), new Rectangle((int) (Utils.frameWidth - widthExit - 0.01 * Utils.frameWidth), (int) (0.01 * Utils.frameHeight), widthExit, heightEdit));
-        panelGame.add(bExit);
-        bExit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-//                new Dialog().setVisible(true);
-//                String choice = Dialog.showDialog(Game.this);
+//        ImageIcon iconExit = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/exit.png")));
+        ImageIcon iconExit = new ImageIcon("src/main/ressources/exit.png");
+//        JButtonWithIcon bExit = new JButtonWithIcon(Utils.resizeImage(iconExit, widthExit, heightEdit), new Rectangle((int) (Utils.frameWidth - widthExit - 0.01 * Utils.frameWidth), (int) (0.01 * Utils.frameHeight), widthExit, heightEdit));
+//        panelGame.add(bExit);
+//        bExit.setToolTipText("Exit game");
+//        bExit.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                String message = Utils.getMessageFin(false, true, plateau.getBestTuile());
+//                String[] options = {"Quitter", "Recommencer", "Continuer"};
+//                String choice = new JDialogPersonalized(Game.this, message, options).getReponse();
 //                System.out.println(choice);
-
-            }
-        });
+//            }
+//        });
 
         panelGame.addKeyListener(new KeyAdapter() {
             @Override
@@ -137,13 +116,11 @@ public class Game extends JFrame {
 
         plateau.afficher(g);
 
-        lScoreJoueur.setText(String.valueOf(plateau.getScore()));
-        lScoreJoueur.setSize(lScoreJoueur.getPreferredSize());
-        lScoreJoueur.setLocation(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.13 * Utils.frameHeight));
+        lScoreJoueur.setText2(String.valueOf(plateau.getScore()));
+        lScoreJoueur.setLocation2(Utils.getFrameX(lScoreJoueur.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.13 * Utils.frameHeight));
 
-        lMovesNb.setText(String.valueOf(plateau.getNbCoups()));
-        lMovesNb.setSize(lMovesNb.getPreferredSize());
-        lMovesNb.setLocation(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
+        lMovesNb.setText2(String.valueOf(plateau.getNbCoups()));
+        lMovesNb.setLocation2(Utils.getFrameX(lMovesNb.getSize().width, Utils.frameWidth), (int) (0.13 * Utils.frameHeight));
     }
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {

@@ -7,11 +7,10 @@ import java.awt.event.MouseEvent;
 
 public class JButtonPersonalized extends JButton {
 
-    public JButtonPersonalized(String text, Font font, int widthFrame, double location) {
+    public JButtonPersonalized(String text, Font font) { //, int locationX, int locationY) {
         super(text);
         this.setFont(font);
         this.setSize((int) (this.getPreferredSize().width * 1.1), (int) (this.getPreferredSize().height * 1.1));
-        this.setLocation(Utils.getFrameX(this.getSize().width, widthFrame), (int) (location * Utils.frameHeight));
         this.setBackground(Utils.blue);
         this.setForeground(Utils.white);
         this.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
@@ -32,5 +31,9 @@ public class JButtonPersonalized extends JButton {
                 setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
+    }
+
+    public void setLocation2(int locationX, int locationY) {
+        this.setLocation(locationX, locationY);
     }
 }

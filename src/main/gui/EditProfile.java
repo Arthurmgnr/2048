@@ -7,6 +7,7 @@ import main.gui.panels.ProfilePanel;
 import main.services.EditProfileService;
 import main.utils.JButtonPersonalized;
 import main.utils.JButtonWithIcon;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 
 import javax.swing.*;
@@ -24,10 +25,7 @@ public class EditProfile extends JFrame {
 
     public EditProfile(String username) {
         // Parametres de la fenetre
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(Utils.frameX, Utils.frameY, Utils.frameWidth, Utils.frameHeight);
-        setTitle("2048");
-        setResizable(false);
+        Utils.setFrameParameters(this);
 
         // Gestionnaire de placement
         EditProfilePanel editProfilePanel = new EditProfilePanel(this);
@@ -39,17 +37,13 @@ public class EditProfile extends JFrame {
         User user = editProfileService.getUserDetails(username);
 
         // Label EditProfile
-        JLabel lEditProfile = new JLabel("Edit Profile");
-        lEditProfile.setFont(new Font("Arial", Font.BOLD, 40));
-        lEditProfile.setSize(lEditProfile.getPreferredSize());
-        lEditProfile.setLocation(Utils.getFrameX(lEditProfile.getSize().width, Utils.frameWidth), (int) (0.05 * Utils.frameHeight));
+        JLabelPersonalized lEditProfile = new JLabelPersonalized("Edit Profile", new Font("Arial", Font.BOLD, 40));
+        lEditProfile.setLocation2(Utils.getFrameX(lEditProfile.getSize().width, Utils.frameWidth), (int) (0.05 * Utils.frameHeight));
         editProfilePanel.add(lEditProfile);
 
         // Label Username
-        JLabel lUsername = new JLabel(username);
-        lUsername.setFont(new Font("Arial", Font.BOLD, 30));
-        lUsername.setSize(lUsername.getPreferredSize());
-        lUsername.setLocation(Utils.getFrameX(lUsername.getSize().width, Utils.frameWidth), (int) (0.15 * Utils.frameHeight));
+        JLabelPersonalized lUsername = new JLabelPersonalized(username, new Font("Arial", Font.BOLD, 30));
+        lUsername.setLocation2(Utils.getFrameX(lUsername.getSize().width, Utils.frameWidth), (int) (0.15 * Utils.frameHeight));
         editProfilePanel.add(lUsername);
 
         // --------------------
@@ -57,10 +51,8 @@ public class EditProfile extends JFrame {
         actualAvatar = listOfAvatar.indexOf(user.getAvatar());
 
         // Avatar Label
-        JLabel lAvatar = new JLabel("Avatar");
-        lAvatar.setFont(new Font("Arial", Font.BOLD, 20));
-        lAvatar.setSize(lAvatar.getPreferredSize());
-        lAvatar.setLocation(Utils.getFrameX(lAvatar.getSize().width, (int) (Utils.frameWidth * 0.5)), (int) (0.35 * Utils.frameHeight));
+        JLabelPersonalized lAvatar = new JLabelPersonalized("Avatar", new Font("Arial", Font.BOLD, 20));
+        lAvatar.setLocation2(Utils.getFrameX(lAvatar.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.35 * Utils.frameHeight));
         editProfilePanel.add(lAvatar);
 
         // Image Avatar
@@ -72,30 +64,33 @@ public class EditProfile extends JFrame {
 
         // Button Previous Avatar
         int widthPreviousAvatar = 50, heightPreviousAvatar = 50;
-        ImageIcon iconPreviousAvatar = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/previous.png")));
-        JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(Utils.resizeImage(iconPreviousAvatar, widthPreviousAvatar, heightPreviousAvatar), new Rectangle((int) (0.4 * Utils.frameWidth), (int) (0.35 * Utils.frameHeight), widthPreviousAvatar, heightPreviousAvatar));
-        editProfilePanel.add(bPreviousAvatar);
-        bPreviousAvatar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                actualAvatar = Utils.changeAvatar(-1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
-            }
-        });
+//        ImageIcon iconPreviousAvatar = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/previous.png")));
+        ImageIcon iconPreviousAvatar = new ImageIcon("src/main/ressources/previous.png");
+//        JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(Utils.resizeImage(iconPreviousAvatar, widthPreviousAvatar, heightPreviousAvatar), new Rectangle((int) (0.4 * Utils.frameWidth), (int) (0.35 * Utils.frameHeight), widthPreviousAvatar, heightPreviousAvatar));
+//        editProfilePanel.add(bPreviousAvatar);
+//        bPreviousAvatar.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                actualAvatar = Utils.changeAvatar(-1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
+//            }
+//        });
 
         // Button Next Avatar
         int widthNextAvatar = 50, heightNextAvatar = 50;
-        ImageIcon iconNextAvatar = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/next.png")));
-        JButtonWithIcon bNextAvatar = new JButtonWithIcon(Utils.resizeImage(iconNextAvatar, widthNextAvatar, heightNextAvatar), new Rectangle((int) (0.8 * Utils.frameWidth), (int) (0.35 * Utils.frameHeight), widthNextAvatar, heightNextAvatar));
-        editProfilePanel.add(bNextAvatar);
-        bNextAvatar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                actualAvatar = Utils.changeAvatar(1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
-            }
-        });
+//        ImageIcon iconNextAvatar = new ImageIcon(Objects.requireNonNull(Profile.class.getResource("/next.png")));
+        ImageIcon iconNextAvatar = new ImageIcon("src/main/ressources/next.png");
+//        JButtonWithIcon bNextAvatar = new JButtonWithIcon(Utils.resizeImage(iconNextAvatar, widthNextAvatar, heightNextAvatar), new Rectangle((int) (0.8 * Utils.frameWidth), (int) (0.35 * Utils.frameHeight), widthNextAvatar, heightNextAvatar));
+//        editProfilePanel.add(bNextAvatar);
+//        bNextAvatar.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                actualAvatar = Utils.changeAvatar(1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
+//            }
+//        });
 
         // Button Back
-        JButtonPersonalized bBack = new JButtonPersonalized("Back", new Font("Arial", Font.BOLD, 35), (int) (Utils.frameWidth * 0.5), 0.8);
+        JButtonPersonalized bBack = new JButtonPersonalized("Back", new Font("Arial", Font.BOLD, 35));
+        bBack.setLocation2(Utils.getFrameX(bBack.getSize().width, (int) (0.5 * Utils.frameWidth)), (int) (0.8 * Utils.frameHeight));
         editProfilePanel.add(bBack);
         bBack.addMouseListener(new MouseAdapter() {
             @Override
@@ -106,7 +101,8 @@ public class EditProfile extends JFrame {
         });
 
         // Button Save
-        JButtonPersonalized bSave = new JButtonPersonalized("Save", new Font("Arial", Font.BOLD, 35), (int) (Utils.frameWidth * 1.5), 0.8);
+        JButtonPersonalized bSave = new JButtonPersonalized("Save", new Font("Arial", Font.BOLD, 35));
+        bSave.setLocation2(Utils.getFrameX(bSave.getSize().width, (int) (1.5 * Utils.frameWidth)), (int) (0.8 * Utils.frameHeight));
         editProfilePanel.add(bSave);
         bSave.addMouseListener(new MouseAdapter() {
             @Override

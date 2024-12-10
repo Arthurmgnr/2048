@@ -7,9 +7,9 @@ import java.awt.event.MouseEvent;
 
 public class JButtonWithIcon extends JButton {
 
-    public JButtonWithIcon(ImageIcon icon, Rectangle bounds) {
+    public JButtonWithIcon(ImageIcon icon, Dimension size) {
         super(icon);
-        this.setBounds(bounds);
+        this.setSize(size);
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
