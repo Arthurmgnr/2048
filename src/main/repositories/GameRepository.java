@@ -1,12 +1,9 @@
 package main.repositories;
 
 import main.DBConnection;
-import main.entities.User;
+import main.entities.Games;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class GameRepository {
     private final Connection connection = DBConnection.getConnection();
@@ -19,7 +16,7 @@ public class GameRepository {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {;
+            if (rs.next()) {
                 userAvatar = rs.getString(1);
             }
         } catch (SQLException e) {
@@ -36,12 +33,28 @@ public class GameRepository {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {;
+            if (rs.next()) {
                 userBestScore = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return userBestScore;
+    }
+
+    public boolean registerGames(Games games) {
+        String query = "INSERT INTO games (username, score, moves, bestTile, win) \n" +
+                        "VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, games.getUsername());
+            stmt.setInt(2, games.getScore());
+            stmt.setInt(3, games.getMoves());
+            stmt.setInt(4, games.getBestTile());
+            stmt.setBoolean(5, games.getWin());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

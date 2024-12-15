@@ -1,10 +1,7 @@
 package main.services;
 
-import main.constants.MessageConstants;
 import main.entities.User;
 import main.repositories.EditProfileRepository;
-
-import java.sql.Timestamp;
 
 public class EditProfileService {
     private final EditProfileRepository editProfileRepository = new EditProfileRepository();

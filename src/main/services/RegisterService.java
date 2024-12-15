@@ -5,8 +5,6 @@ import main.entities.User;
 import main.repositories.RegisterRepository;
 
 import java.sql.Timestamp;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 public class RegisterService {
     private final RegisterRepository registerRepository = new RegisterRepository();

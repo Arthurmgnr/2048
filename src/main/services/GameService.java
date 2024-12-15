@@ -1,6 +1,6 @@
 package main.services;
 
-import main.entities.User;
+import main.entities.Games;
 import main.repositories.GameRepository;
 
 public class GameService {
@@ -9,5 +9,9 @@ public class GameService {
     public String getUserAvatar(String username) { return gameRepository.getUserAvatar(username); }
 
     public int getUserBestScore(String username) { return gameRepository.getUserBestScore(username); }
+
+    public boolean registerGames(Games games) {
+        return gameRepository.registerGames(games);
+    }
 }
 

@@ -1,18 +1,26 @@
 package main.utils;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JButtonWithIcon extends JButton {
 
-    public JButtonWithIcon(ImageIcon icon, Dimension size) {
-        super(icon);
-        this.setSize(size);
-        this.setBorderPainted(false);
-        this.setContentAreaFilled(false);
-        this.setFocusPainted(false);
+    public JButtonWithIcon(String path, String toolTipText, boolean centerAlignement) { //ImageIcon icon, Dimension size, String toolTipText) {
+        int cote = Utils.coteButton;
+
+        ImageIcon iconPreviousAvatar = new ImageIcon(Utils.getAbsolutePath(path));
+        setIcon(Utils.resizeImage(iconPreviousAvatar, cote, cote));
+
+        setSize(new Dimension(cote, cote));
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+        setToolTipText(toolTipText);
+
+        if (centerAlignement) setAlignmentX(Component.CENTER_ALIGNMENT);
 
         addMouseListener(new MouseAdapter() {
             @Override

@@ -7,14 +7,16 @@ import java.awt.event.MouseEvent;
 
 public class JButtonPersonalized extends JButton {
 
-    public JButtonPersonalized(String text, Font font) { //, int locationX, int locationY) {
+    public JButtonPersonalized(String text, String toolTipText) {
         super(text);
-        this.setFont(font);
-        this.setSize((int) (this.getPreferredSize().width * 1.1), (int) (this.getPreferredSize().height * 1.1));
-        this.setBackground(Utils.blue);
-        this.setForeground(Utils.white);
-        this.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
-        this.setOpaque(true);
+
+        setFont(new Font("Arial", Font.BOLD, 35));
+        setBackground(Utils.blue);
+        setForeground(Utils.white);
+        setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
+        setOpaque(true);
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+        setToolTipText(toolTipText);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -33,7 +35,8 @@ public class JButtonPersonalized extends JButton {
         });
     }
 
-    public void setLocation2(int locationX, int locationY) {
-        this.setLocation(locationX, locationY);
+    public void setBothSize(Dimension dimension) {
+        setPreferredSize(dimension);
+        setMaximumSize(dimension);
     }
 }

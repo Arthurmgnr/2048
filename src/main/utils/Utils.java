@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 public class Utils {
     // Recupere les dimensions de l'ecran
-    private static int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    private static int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    private static final int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     // Dimensions de la fenetre
-    private static int frameDimension = Math.min(screenWidth, screenHeight);
+    private static final int frameDimension = Math.min(screenWidth, screenHeight);
     public static int frameHeight = Math.min((int) (frameDimension * 0.8), 1000);
     public static int frameWidth = Math.min((int) (frameHeight * 1.5), 800);
 
@@ -27,8 +27,8 @@ public class Utils {
     }
 
     // Coordonnees de la fenetre pour qu'elle s'affiche au centre a l'ecran
-    public static int frameX = (int) (screenWidth - frameWidth) / 2;
-    public static int frameY = (int) (screenHeight - frameHeight) / 2;
+    public static int frameX = (screenWidth - frameWidth) / 2;
+    public static int frameY = (screenHeight - frameHeight) / 2;
 
     // Permet de centrer un element horizontalement
     public static int getFrameX(int sizeElement, int width) {
@@ -36,8 +36,8 @@ public class Utils {
     }
 
     // Dimension des cotes du plateau de jeu
-    private static int largeurPlateau = Math.min((int) (Utils.frameWidth - 0.05 * Utils.frameWidth), 500);
-    private static int hauteurPlateau = (int) (Utils.frameHeight - 0.2 * Utils.frameHeight - 0.05 * Utils.frameHeight);
+    private static final int largeurPlateau = Math.min((int) (Utils.frameWidth - 0.05 * Utils.frameWidth), 500);
+    private static final int hauteurPlateau = (int) (Utils.frameHeight - 0.2 * Utils.frameHeight - 0.05 * Utils.frameHeight);
     public static int cotePlateau = Math.min(largeurPlateau, hauteurPlateau);
     public static int arrondiPlateau = 10 + (int) (0.02 * Utils.cotePlateau);
 
@@ -58,7 +58,7 @@ public class Utils {
             return new Color(0xf9f6f2);
         }
     }
-    private static Map<Integer, Color> dicoColorCase = new HashMap<Integer, Color>() {{
+    private static final Map<Integer, Color> dicoColorCase = new HashMap<>() {{
         put(2, new Color(0xeee4da));
         put(4, new Color(0xede0c8));
         put(8, new Color(0xf2b179));
@@ -82,7 +82,7 @@ public class Utils {
         else return 30;
     }
 
-    private static Map<Integer, String> dicoMessageTuile = new HashMap<Integer, String>() {{
+    private static final Map<Integer, String> dicoMessageTuile = new HashMap<>() {{
         put(2, "c'est un bon début !");
         put(4, "tu peux encore mieux faire !");
         put(8, "tu es sur la bonne voie !");
@@ -93,7 +93,7 @@ public class Utils {
         put(256, "tu y es presque !");
         put(512, "tu fais de super progrès !");
         put(1024, "tu as déjà fait un long chemin !");
-
+        put(2048, "tu as atteint le premier objectif !");
         put(4096, "tu es en train de réaliser l'impossible !");
         put(8192, "tes compétences sont incroyables !");
         put(16384, "tu as dépassé toutes les attentes !");
@@ -104,11 +104,11 @@ public class Utils {
     public static String getMessageFin(boolean perdu, boolean atteint2048, int tuile) {
         // Le joueur a atteint 2048
         if (!perdu && atteint2048) {
-            return "<html><div>Bravo, tu as atteint 2048<br>Mais ne t'arrêtes pas en si bon chemin !</div></html>";
+            return "Bravo, tu as atteint 2048, mais ne t'arrêtes pas en si bon chemin !";
         }
         // Le joueur n'a pas atteint 2048
         else if (perdu && !atteint2048) {
-            return "<html><div>Dommage... tu n'as pas atteint 2048<br>Mais " + dicoMessageTuile.get(tuile) + "</div></html>";
+            return "Dommage... tu n'as pas atteint 2048, mais " + dicoMessageTuile.get(tuile);
         }
         // Le joueur a depasse 2048
         else {
@@ -124,9 +124,9 @@ public class Utils {
     public static List<String> listOfAvatars() {
         File folder = new File("src/main/ressources/avatar");
         File[] listOfFiles = folder.listFiles();
+        assert listOfFiles != null;
         return Arrays.stream(listOfFiles)
                 .map(File::getPath)
-//                .map(File::getName)
                 .map(chemin -> chemin.replace("\\", "/"))
                 .sorted()
                 .collect(Collectors.toList());
@@ -141,6 +141,11 @@ public class Utils {
         lAvatarImage.setIcon(resizedImageIcon);
         return actualAvatar;
     }
+
+    public static int coteButton = 50;
+
+    private final static String absolutePath = "src/main/ressources/";
+    public static String getAbsolutePath(String path) { return absolutePath + path; }
 }
 
 

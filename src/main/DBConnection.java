@@ -11,10 +11,10 @@ public class DBConnection {
         if (connection == null) {
             try {
                 String url = "jdbc:postgresql://localhost:5432/2048";
-//                String user = "postgres";
-//                String password = "postgres";
-                String user = "polytech";
-                String password = "polytech";
+                String user = "postgres";
+                String password = "postgres";
+//                 String user = "polytech";
+//                 String password = "polytech";
                 connection = DriverManager.getConnection(url, user, password);
                 System.out.println("Connexion établie avec la base de données.");
             } catch (SQLException e) {

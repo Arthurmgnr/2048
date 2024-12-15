@@ -2,11 +2,22 @@ package main.gui;
 
 import main.constants.MessageConstants;
 import main.services.RegisterService;
-import main.utils.JButtonWithIcon;
 import main.utils.Utils;
+import main.utils.ImageIconPersonalized;
+import main.utils.JButtonPersonalized;
+import main.utils.JButtonWithIcon;
+import main.utils.JLabelPersonalized;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.BoxLayout;
+import javax.swing.JTextField;
+import javax.swing.Box;
+import java.awt.Font;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
@@ -16,10 +27,9 @@ import java.util.List;
 public class Register extends JFrame {
     private final RegisterService registerService = new RegisterService();
     private final Timer timer;
-    private int actualAvatar;
+    private int actualAvatar = 0;
 
     public Register() {
-        // Parametres de la fenetre
         Utils.setFrameParameters(this);
 
         JPanel mainPanel = new JPanel();
@@ -35,60 +45,51 @@ public class Register extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // Label Avatar
-        JLabel lAvatar = new JLabel("Avatar");
-        lAvatar.setFont(new Font("Arial", Font.BOLD, 20));
-        lAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lAvatar = new JLabelPersonalized("Avatar", 20, true);
 
         // List of avatars
         List<String> listOfAvatar = Utils.listOfAvatars();
-        actualAvatar = 0;
 
         // Image Avatar
-        ImageIcon avatar = new ImageIcon(listOfAvatar.get(actualAvatar));
-        ImageIcon resizedImageIcon = Utils.resizeImage(avatar, 100, 100);
-        JLabel lAvatarImage = new JLabel(resizedImageIcon);
-        lAvatarImage.setBounds(Utils.getFrameX(100, (int) (1.25 * Utils.frameWidth)), (int) (0.35 * Utils.frameHeight), 100, 100);
-        lAvatarImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImageIconPersonalized lAvatarImage = new ImageIconPersonalized(listOfAvatar.get(actualAvatar), 100, true);
 
         // Previous Avatar
-        int widthPreviousAvatar = 50, heightPreviousAvatar = 50;
-        ImageIcon iconPreviousAvatar = new ImageIcon("src/main/ressources/previous.png");
-        JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(Utils.resizeImage(iconPreviousAvatar, widthPreviousAvatar, heightPreviousAvatar), new Dimension(widthPreviousAvatar, heightPreviousAvatar));
+        JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(
+                "previous.png",
+                "Avatar précédent",
+                true
+        );
+        bPreviousAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
         bPreviousAvatar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 actualAvatar = Utils.changeAvatar(-1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
             }
         });
-        bPreviousAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Next Avatar
-        int widthNextAvatar = 50, heightNextAvatar = 50;
-        ImageIcon iconNextAvatar = new ImageIcon("src/main/ressources/next.png");
-        JButtonWithIcon bNextAvatar = new JButtonWithIcon(Utils.resizeImage(iconNextAvatar, widthNextAvatar, heightNextAvatar), new Dimension(widthNextAvatar, heightNextAvatar));
+        JButtonWithIcon bNextAvatar = new JButtonWithIcon(
+                "next.png",
+                "Avatar suivant",
+                true
+        );
+        bNextAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
         bNextAvatar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 actualAvatar = Utils.changeAvatar(1, actualAvatar, listOfAvatar, lAvatarImage, 100, 100);
             }
         });
-        bNextAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Register
-        JLabel lRegister = new JLabel("Register");
-        lRegister.setFont(new Font("Arial", Font.BOLD, 50));
-        lRegister.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lRegister = new JLabelPersonalized("Register", 50, true);
 
         // Label Username
-        JLabel lUsername = new JLabel("Username");
-        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
-        lUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lUsername = new JLabelPersonalized("Username", 20, true);
 
         // Label Error
-        JLabel lError = new JLabel("");
-        lError.setFont(new Font("Arial", Font.BOLD, 14));
+        JLabelPersonalized lError = new JLabelPersonalized("", 14, true);
         lError.setForeground(Color.RED);
-        lError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // TextField Username
         JTextField tfUsername = new JTextField();
@@ -99,15 +100,9 @@ public class Register extends JFrame {
         tfUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Register
-        JButton bRegister = new JButton("Register");
-        bRegister.setFont(new Font("Arial", Font.BOLD, 35));
-        bRegister.setBackground(Utils.blue);
-        bRegister.setForeground(Utils.white);
-        bRegister.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
-        bRegister.setOpaque(true);
+        JButtonPersonalized bRegister = new JButtonPersonalized("Register", "Créer un compte");
         Dimension dimensionRegister = new Dimension((int) (bRegister.getPreferredSize().width * 1.4), (int) (bRegister.getPreferredSize().height * 1.2));
-        bRegister.setMaximumSize(dimensionRegister);
-        bRegister.setPreferredSize(dimensionRegister);
+        bRegister.setBothSize(dimensionRegister);
         bRegister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -124,53 +119,21 @@ public class Register extends JFrame {
                     timer.start();
                 }
             }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                bRegister.setForeground(Utils.blue);
-                bRegister.setBackground(Utils.white);
-                bRegister.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                bRegister.setForeground(Utils.white);
-                bRegister.setBackground(Utils.blue);
-                bRegister.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
         });
-        bRegister.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         timer = new Timer(5000, e -> lError.setText(""));
         timer.setRepeats(false);
 
         // Back
-        JButton bBack = new JButton("Back");
-        bBack.setFont(new Font("Arial", Font.BOLD, 35));
-        bBack.setBackground(Utils.blue);
-        bBack.setForeground(Utils.white);
-        bBack.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
-        bBack.setOpaque(true);
-        bBack.setMaximumSize(dimensionRegister);
-        bBack.setPreferredSize(dimensionRegister);
+        JButtonPersonalized bBack = new JButtonPersonalized("Back", "Retour à l'écran d'accueil");
+        bBack.setBothSize(dimensionRegister);
         bBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
                 new Home().setVisible(true);
             }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                bBack.setForeground(Utils.blue);
-                bBack.setBackground(Utils.white);
-                bBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                bBack.setForeground(Utils.white);
-                bBack.setBackground(Utils.blue);
-                bBack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
         });
-        bBack.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         avatarPanel.add(lAvatar);
         avatarPanel.add(Box.createHorizontalStrut(50));
@@ -201,10 +164,5 @@ public class Register extends JFrame {
         mainPanel.add(Box.createVerticalGlue());
 
         add(mainPanel);
-    }
-
-    public void dessiner(Graphics g) {
-        g.setColor(Utils.white);
-        g.fillRect(0, 0, getWidth(), getHeight());
     }
 }

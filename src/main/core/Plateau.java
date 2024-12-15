@@ -1,61 +1,60 @@
 package main.core;
 
-import main.utils.Utils;
-
-import java.awt.*;
-import java.util.*;
+import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Collections;
 
 public class Plateau {
-    private ArrayList<ArrayList<Case>> cases = new ArrayList<>();
+    private final ArrayList<ArrayList<Case>> cases = new ArrayList<>();
     private boolean atteint2048 = false;
-    private boolean perdu = false;
-    private int cote = 4;
+    private final int cote = 4;
     private int score = 0;
     private int nbCoups = 0;
 
     public Plateau() {
-//        int i1, j1, i2, j2;
-////        int i3, j3, i4, j4;
-////        i1 = 0;
-////        j1 = 0;
-////        i2 = 0;
-////        j2 = 1;
-////        i3 = 0; j3 = 2; i4 = 0; j4 = 3;
-//        Random rand = new Random();
-//        do {
-//            i1 = rand.nextInt(4);
-//            j1 = rand.nextInt(4);
-//            i2 = rand.nextInt(4);
-//            j2 = rand.nextInt(4);
-//        } while (i1 == i2 && j1 == j2);
-//
-//        for (int i = 0; i < cote; i++)
-//        {
-//            ArrayList<Case> ligne = new ArrayList<>();
-//            for (int j = 0; j < cote; j++)
-//            {
-//                if ((i == i1 && j == j1) || (i == i2 && j == j2)) {
-//                    int valeur = rand.nextDouble() < 0.9 ? 2 : 4;
-//                    ligne.add(new CaseNumero(valeur));
-//                }
-////                if (i == i1 && j == j1) ligne.add(new CaseNumero(1024));
-////                else if (i == i2 && j == j2) ligne.add(new CaseNumero(1024));
-////                else if (i == i3 && j == j3) ligne.add(new CaseNumero(4));
-////                else if (i == i4 && j == j4) ligne.add(new CaseNumero(4));
-//                else ligne.add(new CaseVide());
-//            }
-//            cases.add(ligne);
-//        }
+        int i1, j1, i2, j2;
+//        int i3, j3, i4, j4;
+//        i1 = 0;
+//        j1 = 0;
+//        i2 = 0;
+//        j2 = 1;
+//        i3 = 0; j3 = 2; i4 = 0; j4 = 3;
+        Random rand = new Random();
+        do {
+            i1 = rand.nextInt(4);
+            j1 = rand.nextInt(4);
+            i2 = rand.nextInt(4);
+            j2 = rand.nextInt(4);
+        } while (i1 == i2 && j1 == j2);
+
+        for (int i = 0; i < cote; i++)
+        {
+            ArrayList<Case> ligne = new ArrayList<>();
+            for (int j = 0; j < cote; j++)
+            {
+                if ((i == i1 && j == j1) || (i == i2 && j == j2)) {
+                    int valeur = rand.nextDouble() < 0.9 ? 2 : 4;
+                    ligne.add(new CaseNumero(valeur));
+                }
+//                if (i == i1 && j == j1) ligne.add(new CaseNumero(1024));
+//                else if (i == i2 && j == j2) ligne.add(new CaseNumero(1024));
+//                else if (i == i3 && j == j3) ligne.add(new CaseNumero(4));
+//                else if (i == i4 && j == j4) ligne.add(new CaseNumero(4));
+                else ligne.add(new CaseVide());
+            }
+            cases.add(ligne);
+        }
 
         // Cas de test de Defaite
-        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
-        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseNumero(8), new CaseNumero(16), new CaseNumero(32), new CaseNumero(64)));
-        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
-        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(8), new CaseNumero(64), new CaseNumero(32), new CaseVide()));
-        cases.add(ligne1);
-        cases.add(ligne2);
-        cases.add(ligne3);
-        cases.add(ligne4);
+//        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
+//        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseNumero(8), new CaseNumero(16), new CaseNumero(32), new CaseNumero(64)));
+//        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
+//        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(512), new CaseNumero(512), new CaseNumero(1024), new CaseVide()));
+//        cases.add(ligne1);
+//        cases.add(ligne2);
+//        cases.add(ligne3);
+//        cases.add(ligne4);
     }
 
     public boolean joueurAtteint2048() {
@@ -63,17 +62,6 @@ public class Plateau {
             for (int j = 0; j < cote; j++) {
                 if (cases.get(i).get(j) instanceof CaseNumero &&
                         ((CaseNumero) cases.get(i).get(j)).getValeur() == 2048) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean testCaseVide() {
-        for (int i = 0; i < cote; i++) {
-            for (int j = 0; j < cote; j++) {
-                if (cases.get(i).get(j) instanceof CaseVide) {
                     return true;
                 }
             }
@@ -165,28 +153,6 @@ public class Plateau {
     }
 
     public boolean gameOver() {
-//        boolean caseVide = false, vertical = false, horizontal = false;
-//        if (testCaseVide()) caseVide = true;
-//        for (int i = 0; i < hauteur; i++) {
-//            for (int j = 0; j < largeur - 1; j++) {
-//                if (cases.get(i).get(j) instanceof CaseNumero && cases.get(i).get(j + 1) instanceof CaseNumero &&
-//                        ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i).get(j + 1)).getValeur()) {
-//                    horizontal = true;
-//                    break;
-//                }
-//            }
-//        }
-//        for (int i = 0; i < hauteur - 1; i++) {
-//            for (int j = 0; j < largeur; j++) {
-//                if (cases.get(i).get(j) instanceof CaseNumero && cases.get(i + 1).get(j) instanceof CaseNumero &&
-//                        ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i + 1).get(j)).getValeur()) {
-//                    vertical = true;
-//                    break;
-//                }
-//            }
-//        }
-//        return caseVide || horizontal || vertical;
-
         for (int i = 0; i < cote; i++) {
             for (int j = 0; j < cote; j++) {
                 if (cases.get(i).get(j) instanceof CaseVide) return false;
@@ -262,68 +228,12 @@ public class Plateau {
         return true;
     }
 
-//    public boolean deplacementAFaire() {
-//        boolean caseVide = false, vertical = false, horizontal = false;
-//
-//        if (testCaseVide()) caseVide = true;
-//
-//        for (int i = 0; i < hauteur; i++) {
-//            for (int j = 0; j < largeur - 1; j++) {
-//                if (cases.get(i).get(j) instanceof CaseNumero && cases.get(i).get(j + 1) instanceof CaseNumero &&
-//                        ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i).get(j + 1)).getValeur()) {
-//                    horizontal = true;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < hauteur - 1; i++) {
-//            for (int j = 0; j < largeur; j++) {
-//                if (cases.get(i).get(j) instanceof CaseNumero && cases.get(i + 1).get(j) instanceof CaseNumero &&
-//                        ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i + 1).get(j)).getValeur()) {
-//                    vertical = true;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return caseVide || horizontal || vertical;
-//    }
-
-//    public void afficher2() {
-//        for (int i = 0; i < hauteur; i++) {
-//            System.out.print("\t");
-//            for (int j = 0; j < largeur; j++) {
-//                cases.get(i).get(j).afficher2();
-//                System.out.print("\t");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-//    }
-
-    public void afficher(Graphics g) {
-        g.setColor(new Color(188, 172, 160));
-        g.fillRoundRect(
-                Utils.getFrameX(Utils.cotePlateau, Utils.frameWidth),
-                (int) (0.2 * Utils.frameHeight),
-                Utils.cotePlateau,
-                Utils.cotePlateau,
-                Utils.arrondiPlateau,
-                Utils.arrondiPlateau
-        );
-
+    public void afficher(ArrayList<ArrayList<JPanel>> listOfPanel) {
         for (int i = 0; i < cote; i++) {
-//            System.out.print("\t");
             for (int j = 0; j < cote; j++) {
-                int x = Utils.getFrameX(Utils.cotePlateau, Utils.frameWidth) + Utils.margeCases * (j + 1) + Utils.coteCase * j;
-                int y = (int) ((0.2 * Utils.frameHeight) + Utils.margeCases * (i + 1) + Utils.coteCase * i);
-                cases.get(i).get(j).afficher(g, x, y);
-//                System.out.print("\t");
+                cases.get(i).get(j).afficher(listOfPanel.get(i).get(j));
             }
-//            System.out.println();
         }
-//        System.out.println();
     }
 
     public int getBestTuile() {
@@ -354,13 +264,5 @@ public class Plateau {
 
     public void setatteint2048(boolean atteint2048) {
         this.atteint2048 = atteint2048;
-    }
-
-    public boolean isPerdu() {
-        return perdu;
-    }
-
-    public void setPerdu(boolean perdu) {
-        this.perdu = perdu;
     }
 }

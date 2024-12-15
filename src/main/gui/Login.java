@@ -2,10 +2,20 @@ package main.gui;
 
 import main.constants.MessageConstants;
 import main.services.LoginService;
+import main.utils.JButtonPersonalized;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.Timer;
+import javax.swing.JTextField;
+import javax.swing.Box;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,20 +37,14 @@ public class Login extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // Login
-        JLabel lLogin = new JLabel("Login");
-        lLogin.setFont(new Font("Arial", Font.BOLD, 50));
-        lLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lLogin = new JLabelPersonalized("Login", 50, true);
 
         // Label Username
-        JLabel lUsername = new JLabel("Username");
-        lUsername.setFont(new Font("Arial", Font.BOLD, 20));
-        lUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lUsername = new JLabelPersonalized("Username", 20, true);
 
         // Label Error
-        JLabel lError = new JLabel("");
-        lError.setFont(new Font("Arial", Font.BOLD, 14));
+        JLabelPersonalized lError = new JLabelPersonalized("", 14, true);
         lError.setForeground(Color.RED);
-        lError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // TextField Username
         JTextField tfUsername = new JTextField();
@@ -51,15 +55,9 @@ public class Login extends JFrame {
         tfUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Login
-        JButton bLogin = new JButton("Login");
-        bLogin.setFont(new Font("Arial", Font.BOLD, 35));
-        bLogin.setBackground(Utils.blue);
-        bLogin.setForeground(Utils.white);
-        bLogin.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
-        bLogin.setOpaque(true);
+        JButtonPersonalized bLogin = new JButtonPersonalized("Login", "Se connecter");
         Dimension dimensionLogin = new Dimension((int) (bLogin.getPreferredSize().width * 1.4), (int) (bLogin.getPreferredSize().height * 1.2));
-        bLogin.setMaximumSize(dimensionLogin);
-        bLogin.setPreferredSize(dimensionLogin);
+        bLogin.setBothSize(dimensionLogin);
         bLogin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -73,53 +71,21 @@ public class Login extends JFrame {
                     timer.start();
                 }
             }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                bLogin.setForeground(Utils.blue);
-                bLogin.setBackground(Utils.white);
-                bLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                bLogin.setForeground(Utils.white);
-                bLogin.setBackground(Utils.blue);
-                bLogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
         });
-        bLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         timer = new Timer(5000, e -> lError.setText(""));
         timer.setRepeats(false);
 
         // Back
-        JButton bBack = new JButton("Back");
-        bBack.setFont(new Font("Arial", Font.BOLD, 35));
-        bBack.setBackground(Utils.blue);
-        bBack.setForeground(Utils.white);
-        bBack.setBorder(BorderFactory.createLineBorder(Utils.blue, 3));
-        bBack.setOpaque(true);
-        bBack.setMaximumSize(dimensionLogin);
-        bBack.setPreferredSize(dimensionLogin);
+        JButtonPersonalized bBack = new JButtonPersonalized("Back", "Retour à l'écran principal");
+        bBack.setBothSize(dimensionLogin);
         bBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
                 new Home().setVisible(true);
             }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                bBack.setForeground(Utils.blue);
-                bBack.setBackground(Utils.white);
-                bBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                bBack.setForeground(Utils.white);
-                bBack.setBackground(Utils.blue);
-                bBack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
         });
-        bBack.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         usernamePanel.add(lUsername);
         usernamePanel.add(Box.createHorizontalStrut(50));
@@ -140,10 +106,5 @@ public class Login extends JFrame {
         mainPanel.add(Box.createVerticalGlue());
 
         add(mainPanel);
-    }
-
-    public void dessiner(Graphics g) {
-        g.setColor(Utils.white);
-        g.fillRect(0, 0, getWidth(), getHeight());
     }
 }

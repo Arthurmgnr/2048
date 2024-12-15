@@ -3,11 +3,19 @@ package main.gui;
 import main.entities.User;
 import main.entities.UserGamesDetails;
 import main.services.ProfileService;
+import main.utils.ImageIconPersonalized;
+import main.utils.JButtonProfileGame;
 import main.utils.JButtonWithIcon;
+import main.utils.JLabelPersonalized;
 import main.utils.Utils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -15,11 +23,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Profile extends JFrame {
-    private final ProfileService profileService = new ProfileService();
 
     public Profile(String username) {
-        // Parametres de la fenetre
         Utils.setFrameParameters(this);
+
+        // To get data from database
+        ProfileService profileService = new ProfileService();
 
         // Get the userDetails
         User user = profileService.getUserDetails(username);
@@ -47,38 +56,14 @@ public class Profile extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // Label Profile
-        JLabel lProfile = new JLabel("Profile");
-        lProfile.setFont(new Font("Arial", Font.BOLD, 40));
-        lProfile.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        Dimension dimension = new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2));
-        lProfile.setMaximumSize(dimension);
-        lProfile.setPreferredSize(dimension);
-        lProfile.setForeground(Utils.blue);
-        lProfile.setHorizontalAlignment(SwingConstants.CENTER);
-        lProfile.setVerticalAlignment(SwingConstants.CENTER);
+        JButtonProfileGame lProfile = new JButtonProfileGame("Profile", false, "");
+        Dimension dimensionLProfile = new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2));
+        lProfile.setBothSize(dimensionLProfile);
 
         // Label Game
-        JLabel lGame = new JLabel("Game");
-        lGame.setFont(new Font("Arial", Font.BOLD, 40));
-        lGame.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        lGame.setMaximumSize(dimension);
-        lGame.setPreferredSize(dimension);
-        lGame.setForeground(Color.BLACK);
-        lGame.setHorizontalAlignment(SwingConstants.CENTER);
-        lGame.setVerticalAlignment(SwingConstants.CENTER);
+        JButtonProfileGame lGame = new JButtonProfileGame("Game", true, "Aller a l'écran de jeu");
+        lGame.setBothSize(dimensionLProfile);
         lGame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lGame.setBackground(Color.LIGHT_GRAY);
-                lGame.setOpaque(true);
-                lGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lGame.setBackground(Color.WHITE);
-                lGame.setOpaque(false);
-                lGame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
@@ -87,20 +72,17 @@ public class Profile extends JFrame {
         });
 
         // Label Username
-        JLabel lUsername = new JLabel(username);
-        lUsername.setFont(new Font("Arial", Font.BOLD, 30));
-        lUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabelPersonalized lUsername = new JLabelPersonalized(username, 30, true);
 
         // Avatar image
-        ImageIcon avatar = new ImageIcon(user.getAvatar());
-        ImageIcon resizedImageIcon = Utils.resizeImage(avatar, 100, 100);
-        JLabel lAvatarImage = new JLabel(resizedImageIcon);
-        lAvatarImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImageIconPersonalized lAvatarImage = new ImageIconPersonalized(user.getAvatar(), 100, true);
 
         // Button Edit
-        int width = 50, height = 50;
-        ImageIcon icon = new ImageIcon("src/main/ressources/edit.png");
-        JButtonWithIcon bEdit = new JButtonWithIcon(Utils.resizeImage(icon, width, height), new Dimension(width, height));
+        JButtonWithIcon bEdit = new JButtonWithIcon(
+                "edit.png",
+                "Modifier les informations du profil",
+                false
+        );
         bEdit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -110,51 +92,37 @@ public class Profile extends JFrame {
         });
 
         // Date
-        JLabel lDate = new JLabel("Date de création");
-        lDate.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lDate = new JLabelPersonalized("Date de création", 20, false);
 
         LocalDateTime date = user.getDateTime().toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
         String formattedDate = date.format(formatter);
         String result = formattedDate.substring(0, 3) + formattedDate.substring(3).substring(0, 1).toUpperCase() + formattedDate.substring(4);
-        JLabel lDateValue = new JLabel(result);
-        lDateValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lDateValue = new JLabelPersonalized(result, 20, false);
 
         // Lang
-        JLabel lLang = new JLabel("Lang");
-        lLang.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lLangValue = new JLabel(user.getLang());
-        lLangValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lLang = new JLabelPersonalized("Lang", 20, false);
+        JLabelPersonalized lLangValue = new JLabelPersonalized(user.getLang(), 20, false);
 
         // Best Score
-        JLabel lBestScore = new JLabel("Best Score");
-        lBestScore.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lBestScoreValue = new JLabel(String.valueOf(userGamesDetails.getBestScore()));
-        lBestScoreValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lBestScore = new JLabelPersonalized("Best Score", 20, false);
+        JLabelPersonalized lBestScoreValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getBestScore()), 20, false);
 
         // Nb Parties
-        JLabel lNbParties = new JLabel("Nb Parties");
-        lNbParties.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lNbPartiesValue = new JLabel(String.valueOf(userGamesDetails.getNbParties()));
-        lNbPartiesValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lNbParties = new JLabelPersonalized("Nb Parties", 20, false);
+        JLabelPersonalized lNbPartiesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbParties()), 20, false);
 
         // Score Moyen
-        JLabel lScoreMoyen = new JLabel("Score Moyen");
-        lScoreMoyen.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lScoreMoyenValue = new JLabel(String.valueOf(userGamesDetails.getScoreMoyen()));
-        lScoreMoyenValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lScoreMoyen = new JLabelPersonalized("Score Moyen", 20, false);
+        JLabelPersonalized lScoreMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getScoreMoyen()), 20, false);
 
         // Nb Coups Moyen
-        JLabel lNbCoupsMoyen = new JLabel("Nb Coups Moyen");
-        lNbCoupsMoyen.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lNbCoupsMoyenValue = new JLabel(String.valueOf(userGamesDetails.getNbCoupsMoyen()));
-        lNbCoupsMoyenValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lNbCoupsMoyen = new JLabelPersonalized("Nb Coups Moyen", 20, false);
+        JLabelPersonalized lNbCoupsMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbCoupsMoyen()), 20, false);
 
         // Nb Parties Gagnees
-        JLabel lNbPartiesGagnees = new JLabel("Nb Parties Gagnees");
-        lNbPartiesGagnees.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel lNbPartiesGagneesValue = new JLabel(String.valueOf(userGamesDetails.getNbPartiesGagnees()));
-        lNbPartiesGagneesValue.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabelPersonalized lNbPartiesGagnees = new JLabelPersonalized("Nb Parties Gagnees", 20, false);
+        JLabelPersonalized lNbPartiesGagneesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbPartiesGagnees()), 20, false);
 
         editPanel.add(Box.createHorizontalGlue());
         editPanel.add(bEdit);
@@ -188,10 +156,5 @@ public class Profile extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-    }
-
-    public void dessiner(Graphics g) {
-        g.setColor(Utils.white);
-        g.fillRect(0, 0, getWidth(), getHeight());
     }
 }

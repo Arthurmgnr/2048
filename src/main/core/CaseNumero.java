@@ -2,52 +2,29 @@ package main.core;
 
 import main.utils.Utils;
 
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.Font;
 
 public class CaseNumero extends Case {
-
-    private int valeur;
+    private final int valeur;
 
     public CaseNumero(int valeur) {
-//        super(x, y);
         this.valeur = valeur;
     }
 
     @Override
-    public void deplacement() {
-        System.out.println("Hello and welcome in the 2048!");
-    }
+    public void afficher(JPanel panel) {
+        JLabel lCase = (JLabel) panel.getComponent(0);
 
-//    public void afficher2() {
-//        System.out.print(valeur);
-//    }
+        panel.setBackground(Utils.getColorCase(valeur));
 
-    @Override
-    public void afficher(Graphics g, int x, int y) {
-        g.setColor(Utils.getColorCase(valeur));
-        g.fillRoundRect(
-                x,
-                y,
-                Utils.coteCase,
-                Utils.coteCase,
-                Utils.arrondiCase,
-                Utils.arrondiCase
-        );
-        g.setFont(new Font("Arial", Font.BOLD, Utils.getSizeText(valeur)));
-        g.setColor(Utils.getColorText(valeur));
-        g.drawString(
-                String.valueOf(valeur),
-                x - g.getFontMetrics().stringWidth(String.valueOf(valeur)) / 2 + Utils.coteCase / 2,
-                y + g.getFontMetrics().getAscent() / 2 + Utils.coteCase / 2
-        );
-//        System.out.print(valeur);
+        lCase.setText(String.valueOf(valeur));
+        lCase.setFont(new Font("Arial", Font.BOLD, Utils.getSizeText(valeur)));
+        lCase.setForeground(Utils.getColorText(valeur));
     }
 
     public int getValeur() {
         return valeur;
-    }
-
-    public void setValeur(int valeur) {
-        this.valeur = valeur;
     }
 }
