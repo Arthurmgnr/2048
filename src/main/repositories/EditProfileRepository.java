@@ -31,11 +31,12 @@ public class EditProfileRepository {
 
     public boolean updateUser(User user) {
         String query = "UPDATE users \n" +
-                        "SET avatar = ? \n" +
+                        "SET lang = ?, avatar = ? \n" +
                         "WHERE username = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, user.getAvatar());
-            stmt.setString(2, user.getUsername());
+            stmt.setString(1, user.getLang());
+            stmt.setString(2, user.getAvatar());
+            stmt.setString(3, user.getUsername());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -30,11 +30,6 @@ public class Utils {
     public static int frameX = (screenWidth - frameWidth) / 2;
     public static int frameY = (screenHeight - frameHeight) / 2;
 
-    // Permet de centrer un element horizontalement
-    public static int getFrameX(int sizeElement, int width) {
-        return (width - sizeElement) / 2;
-    }
-
     // Dimension des cotes du plateau de jeu
     private static final int largeurPlateau = Math.min((int) (Utils.frameWidth - 0.05 * Utils.frameWidth), 500);
     private static final int hauteurPlateau = (int) (Utils.frameHeight - 0.2 * Utils.frameHeight - 0.05 * Utils.frameHeight);
@@ -82,37 +77,20 @@ public class Utils {
         else return 30;
     }
 
-    private static final Map<Integer, String> dicoMessageTuile = new HashMap<>() {{
-        put(2, "c'est un bon début !");
-        put(4, "tu peux encore mieux faire !");
-        put(8, "tu es sur la bonne voie !");
-        put(16, "continue d'avancer !");
-        put(32, "tu es en train de progresser !");
-        put(64, "tu commences à bien t'en sortir !");
-        put(128, "la victoire est proche !");
-        put(256, "tu y es presque !");
-        put(512, "tu fais de super progrès !");
-        put(1024, "tu as déjà fait un long chemin !");
-        put(2048, "tu as atteint le premier objectif !");
-        put(4096, "tu es en train de réaliser l'impossible !");
-        put(8192, "tes compétences sont incroyables !");
-        put(16384, "tu as dépassé toutes les attentes !");
-        put(32768, "tu es un véritable maître du jeu !");
-        put(65536, "tu es vraiment surhumain !");
-        put(131072, "tu écris l'histoire du 2048 !");
-    }};
     public static String getMessageFin(boolean perdu, boolean atteint2048, int tuile) {
         // Le joueur a atteint 2048
         if (!perdu && atteint2048) {
-            return "Bravo, tu as atteint 2048, mais ne t'arrêtes pas en si bon chemin !";
+            return TranslationManager.get("messageWinLost.reached2048");
         }
         // Le joueur n'a pas atteint 2048
         else if (perdu && !atteint2048) {
-            return "Dommage... tu n'as pas atteint 2048, mais " + dicoMessageTuile.get(tuile);
+//            return TranslationManager.get("messageWinLost.notReached2048") + dicoMessageTuile.get(tuile);
+            return TranslationManager.get("messageWinLost.notReached2048") + TranslationManager.get("messageWinLost." + tuile);
         }
         // Le joueur a depasse 2048
         else {
-            return "Bravo, " + dicoMessageTuile.get(tuile);
+//            return TranslationManager.get("messageWinLost.outdated2048") + dicoMessageTuile.get(tuile);
+            return TranslationManager.get("messageWinLost.outdated2048") + TranslationManager.get("messageWinLost." + tuile);
         }
     }
 
@@ -122,7 +100,7 @@ public class Utils {
     }
 
     public static List<String> listOfAvatars() {
-        File folder = new File("src/main/ressources/avatar");
+        File folder = new File(getAbsolutePath("avatar"));
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         return Arrays.stream(listOfFiles)
@@ -146,6 +124,9 @@ public class Utils {
 
     private final static String absolutePath = "src/main/ressources/";
     public static String getAbsolutePath(String path) { return absolutePath + path; }
+
+    public static Dimension getMaxDimension(Dimension d1, Dimension d2) {
+        if (d1.width > d2.width) return d1;
+        else return d2;
+    }
 }
-
-

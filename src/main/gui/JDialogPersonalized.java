@@ -19,7 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class JDialogPersonalized extends JDialog {
-    private static String choice;
+    private static int choice;
 
     public JDialogPersonalized(JFrame parent, String message, String[] options, String[] toolTipTexts) {
         Dimension maxDimension = new Dimension(0, 0);
@@ -27,7 +27,7 @@ public class JDialogPersonalized extends JDialog {
             JButton bOption = new JButton(option);
             bOption.setFont(new Font("Arial", Font.BOLD, 20));
             Dimension dimension = new Dimension((int) (bOption.getPreferredSize().width * 1.4), (int) (bOption.getPreferredSize().height * 1.2));
-            if (dimension.height > maxDimension.height && dimension.width > maxDimension.width) {
+            if (dimension.height > maxDimension.height) {
                 maxDimension.height = dimension.height;
                 maxDimension.width = dimension.width;
             }
@@ -68,7 +68,7 @@ public class JDialogPersonalized extends JDialog {
             bOption.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    JDialogPersonalized.choice = options[finalI];
+                    JDialogPersonalized.choice = finalI;
                     dispose();
                 }
             });
@@ -90,13 +90,13 @@ public class JDialogPersonalized extends JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JDialogPersonalized.choice = "Quitter";
+                JDialogPersonalized.choice = -1;
                 dispose();
             }
         });
     }
 
-    public String getReponse() {
+    public int getReponse() {
         setVisible(true);
         return choice;
     }

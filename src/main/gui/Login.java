@@ -2,19 +2,14 @@ package main.gui;
 
 import main.constants.MessageConstants;
 import main.services.LoginService;
-import main.utils.JButtonPersonalized;
-import main.utils.JLabelPersonalized;
-import main.utils.Utils;
+import main.utils.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.Timer;
-import javax.swing.JTextField;
 import javax.swing.Box;
-import java.awt.Font;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +22,9 @@ public class Login extends JFrame {
         // Parametres de la fenetre
         Utils.setFrameParameters(this);
 
+        // Set the language to 'en' to ensure problems
+        TranslationManager.setLanguage("en");
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -37,27 +35,26 @@ public class Login extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // Login
-        JLabelPersonalized lLogin = new JLabelPersonalized("Login", 50, true);
+        JLabelPersonalized lLogin = new JLabelPersonalized(
+                TranslationManager.get("login.login.title"), 50, true
+        );
 
         // Label Username
-        JLabelPersonalized lUsername = new JLabelPersonalized("Username", 20, true);
+        JLabelPersonalized lUsername = new JLabelPersonalized(
+                TranslationManager.get("login.username.label"), 20, true
+        );
 
         // Label Error
         JLabelPersonalized lError = new JLabelPersonalized("", 14, true);
         lError.setForeground(Color.RED);
 
         // TextField Username
-        JTextField tfUsername = new JTextField();
-        tfUsername.setFont(new Font("Arial", Font.PLAIN, 18));
-        Dimension dimensionUsername = new Dimension(tfUsername.getFontMetrics(tfUsername.getFont()).charWidth('W') * 20, lUsername.getPreferredSize().height);
-        tfUsername.setMaximumSize(dimensionUsername);
-        tfUsername.setPreferredSize(dimensionUsername);
-        tfUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JTextFieldPersonalized tfUsername = new JTextFieldPersonalized(lUsername);
 
         // Login
-        JButtonPersonalized bLogin = new JButtonPersonalized("Login", "Se connecter");
-        Dimension dimensionLogin = new Dimension((int) (bLogin.getPreferredSize().width * 1.4), (int) (bLogin.getPreferredSize().height * 1.2));
-        bLogin.setBothSize(dimensionLogin);
+        JButtonPersonalized bLogin = new JButtonPersonalized(
+                TranslationManager.get("login.login.button"), TranslationManager.get("login.login.tooltip")
+        );
         bLogin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -77,8 +74,9 @@ public class Login extends JFrame {
         timer.setRepeats(false);
 
         // Back
-        JButtonPersonalized bBack = new JButtonPersonalized("Back", "Retour à l'écran principal");
-        bBack.setBothSize(dimensionLogin);
+        JButtonPersonalized bBack = new JButtonPersonalized(
+                TranslationManager.get("login.back.button"), TranslationManager.get("login.back.tooltip")
+        );
         bBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -86,6 +84,14 @@ public class Login extends JFrame {
                 new Home().setVisible(true);
             }
         });
+
+        // Set sizes of the buttons
+        Dimension maxDimension = Utils.getMaxDimension(
+                new Dimension((int) (bLogin.getPreferredSize().width * 1.4), (int) (bLogin.getPreferredSize().height * 1.2)),
+                new Dimension((int) (bBack.getPreferredSize().width * 1.4), (int) (bBack.getPreferredSize().height * 1.2))
+        );
+        bLogin.setBothSize(maxDimension);
+        bBack.setBothSize(maxDimension);
 
         usernamePanel.add(lUsername);
         usernamePanel.add(Box.createHorizontalStrut(50));

@@ -10,9 +10,10 @@ public class EditProfileService {
         return editProfileRepository.getUserDetails(username);
     }
 
-    public boolean updateUser(String username, String avatar) {
+    public boolean updateUser(String username, String language, String avatar) {
         User user = new User();
         user.setUsername(username);
+        user.setLang(language);
         user.setAvatar(avatar);
 
         return editProfileRepository.updateUser(user);

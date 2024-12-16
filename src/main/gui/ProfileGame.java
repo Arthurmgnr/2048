@@ -32,8 +32,11 @@ public class ProfileGame extends JFrame {
         // Get BestScore
         UserGamesDetails userGamesDetails = profileGameService.getBestScore(username);
 
-        // Get Avatar
-        User user = profileGameService.getUserAvatar(username);
+        // Get avatar and lang
+        User user = profileGameService.getUserDetails(username);
+
+        // Set the language
+        TranslationManager.setLanguage(user.getLang());
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -53,9 +56,10 @@ public class ProfileGame extends JFrame {
         JLabelPersonalized lUsername = new JLabelPersonalized(username, 20, false);
 
         // Label Profile
-        JButtonProfileGame lProfile = new JButtonProfileGame("Profile", true, "Aller à l'écran du profil");
-        Dimension dimensionLProfile = new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2));
-        lProfile.setBothSize(dimensionLProfile);
+        JButtonProfileGame lProfile = new JButtonProfileGame(
+                TranslationManager.get("profileGame.profile.button"),
+                true,
+                TranslationManager.get("profileGame.profile.tooltip"));
         lProfile.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -65,11 +69,22 @@ public class ProfileGame extends JFrame {
         });
 
         // Label Game
-        JButtonProfileGame lGame = new JButtonProfileGame("Game", false, "");
-        lGame.setBothSize(dimensionLProfile);
+        JButtonProfileGame lGame = new JButtonProfileGame(
+                TranslationManager.get("profileGame.game.button"), false, ""
+        );
+
+        // Set sizes of the buttons
+        Dimension maxDimension = Utils.getMaxDimension(
+                new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2)),
+                new Dimension((int) (Utils.frameWidth * 0.5), (int) (lGame.getPreferredSize().height * 1.2))
+        );
+        lProfile.setBothSize(maxDimension);
+        lGame.setBothSize(maxDimension);
 
         // Label BestScore
-        JLabelPersonalized lBestScore = new JLabelPersonalized("Best Score", 40, true);
+        JLabelPersonalized lBestScore = new JLabelPersonalized(
+                TranslationManager.get("profileGame.bestScore.label"), 40, true
+        );
 
         // Label BestScoreJoueur
         JLabelPersonalized lBestScoreJoueur = new JLabelPersonalized(
@@ -77,7 +92,9 @@ public class ProfileGame extends JFrame {
         );
 
         // Button Play
-        JButtonPersonalized bPlay = new JButtonPersonalized("Play", "Jouer une partie de 2048");
+        JButtonPersonalized bPlay = new JButtonPersonalized(
+                TranslationManager.get("profileGame.play.button"), TranslationManager.get("profileGame.play.tooltip")
+        );
         Dimension dimensionPlay = new Dimension((int) (bPlay.getPreferredSize().width * 1.4), (int) (bPlay.getPreferredSize().height * 1.2));
         bPlay.setBothSize(dimensionPlay);
         bPlay.addMouseListener(new MouseAdapter() {
@@ -91,7 +108,7 @@ public class ProfileGame extends JFrame {
         // Button Home
         JButtonWithIcon bHome = new JButtonWithIcon(
                 "home.png",
-                "Retourner à l'écran d'accueil",
+                TranslationManager.get("profileGame.home.tooltip"),
                 false
         );
         bHome.addMouseListener(new MouseAdapter() {
@@ -122,7 +139,11 @@ public class ProfileGame extends JFrame {
 
         // Label Welcome
         if (message) {
-            JLabel lWelcome = new JLabel(newUser ? "Welcome " + username : "Welcome back " + username);
+            JLabel lWelcome = new JLabel(
+                    newUser
+                            ? TranslationManager.get("profileGame.message.newUser") + username
+                            : TranslationManager.get("profileGame.message.oldUser") + username
+            );
             lWelcome.setFont(new Font("Arial", Font.BOLD, 20));
             lWelcome.setForeground(Color.BLACK);
             lWelcome.setBackground(Color.GRAY);

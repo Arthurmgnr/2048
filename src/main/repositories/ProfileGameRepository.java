@@ -30,8 +30,8 @@ public class ProfileGameRepository {
         return user;
     }
 
-    public User getUserAvatar(String username) {
-        String query = "SELECT avatar \n" +
+    public User getUserDetails(String username) {
+        String query = "SELECT avatar, lang \n" +
                         "FROM users \n" +
                         "WHERE username = ?";
         User user = null;
@@ -41,6 +41,7 @@ public class ProfileGameRepository {
             if (rs.next()) {
                 user = new User();
                 user.setAvatar(rs.getString(1));
+                user.setLang(rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();

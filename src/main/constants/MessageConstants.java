@@ -1,12 +1,14 @@
 package main.constants;
 
+import main.utils.TranslationManager;
+
 public enum MessageConstants {
-    USERNAME_EMPTY("Username cannot be empty!", false),
-    USERNAME_ALREADY_EXISTS("Username already exists!", false),
-    USERNAME_DOESNT_EXIST("Username doesn't exist!", false),
-    REGISTRATION_FAILED("Registration failed", false),
-    REGISTRATION_SUCCESSFUL("Registration successful", true),
-    LOGIN_SUCCESSFUL("Login successful", true);
+    USERNAME_EMPTY(TranslationManager.get("messageConstants.usernameEmpty"), false),
+    USERNAME_ALREADY_EXISTS(TranslationManager.get("messageConstants.usernameAlreadyExists"), false),
+    USERNAME_DOESNT_EXIST(TranslationManager.get("messageConstants.usernameDoesntExist"), false),
+    REGISTRATION_FAILED(TranslationManager.get("messageConstants.registrationFailed"), false),
+    REGISTRATION_SUCCESSFUL(TranslationManager.get("messageConstants.registrationSuccessful"), true),
+    LOGIN_SUCCESSFUL(TranslationManager.get("messageConstants.loginSuccessful"), true);
 
     private final String text;
     private final boolean bool;

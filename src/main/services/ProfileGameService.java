@@ -11,5 +11,5 @@ public class ProfileGameService {
         return profileGameRepository.getBestScore(username);
     }
 
-    public User getUserAvatar(String username) { return profileGameRepository.getUserAvatar(username); }
+    public User getUserDetails(String username) { return profileGameRepository.getUserDetails(username); }
 }

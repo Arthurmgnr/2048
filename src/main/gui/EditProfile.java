@@ -1,17 +1,11 @@
 package main.gui;
 
+import main.constants.LanguageConstants;
 import main.entities.User;
 import main.services.EditProfileService;
-import main.utils.ImageIconPersonalized;
-import main.utils.JButtonPersonalized;
-import main.utils.JButtonWithIcon;
-import main.utils.JLabelPersonalized;
-import main.utils.Utils;
+import main.utils.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.Box;
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +14,7 @@ import java.util.List;
 public class EditProfile extends JFrame {
     private final EditProfileService editProfileService = new EditProfileService();
     private int actualAvatar;
+    private String lang;
 
     public EditProfile(String username) {
         Utils.setFrameParameters(this);
@@ -40,7 +35,9 @@ public class EditProfile extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // EditProfile
-        JLabelPersonalized lEditProfile = new JLabelPersonalized("Edit Profile", 40, true);
+        JLabelPersonalized lEditProfile = new JLabelPersonalized(
+                TranslationManager.get("editProfile.title"), 40, true
+        );
 
         // Label Username
         JLabelPersonalized lUsername = new JLabelPersonalized(username, 30, true);
@@ -58,7 +55,7 @@ public class EditProfile extends JFrame {
         // Previous Avatar
         JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(
                 "previous.png",
-                "Avatar précédent",
+                TranslationManager.get("editProfile.previousAvatar.tooltip"),
                 true
         );
         bPreviousAvatar.addMouseListener(new MouseAdapter() {
@@ -71,7 +68,7 @@ public class EditProfile extends JFrame {
         // Next Avatar
         JButtonWithIcon bNextAvatar = new JButtonWithIcon(
                 "next.png",
-                "Avatar suivant",
+                TranslationManager.get("editProfile.nextAvatar.tooltip"),
                 true
         );
         bNextAvatar.addMouseListener(new MouseAdapter() {
@@ -82,9 +79,9 @@ public class EditProfile extends JFrame {
         });
 
         // Back
-        JButtonPersonalized bBack = new JButtonPersonalized("Back", "Retour à l'écran du profil");
-        Dimension dimensionBack = new Dimension((int) (bBack.getPreferredSize().width * 1.4), (int) (bBack.getPreferredSize().height * 1.2));
-        bBack.setBothSize(dimensionBack);
+        JButtonPersonalized bBack = new JButtonPersonalized(
+                TranslationManager.get("editProfile.back.button"), TranslationManager.get("editProfile.back.tooltip")
+        );
         bBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -94,19 +91,53 @@ public class EditProfile extends JFrame {
         });
 
         // Save
-        JButtonPersonalized bSave = new JButtonPersonalized("Save", "Sauvegarder les modifications");
-        bSave.setBothSize(dimensionBack);
+        JButtonPersonalized bSave = new JButtonPersonalized(
+                TranslationManager.get("editProfile.save.button"), TranslationManager.get("editProfile.save.tooltip")
+        );
         bSave.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String avatar = listOfAvatar.get(actualAvatar);
-                boolean message = editProfileService.updateUser(username, avatar);
+                String language = lang;
+                boolean message = editProfileService.updateUser(username, language, avatar);
                 if (message) {
+                    TranslationManager.setLanguage(language);
                     dispose();
                     new Profile(username).setVisible(true);
                 }
             }
         });
+
+        // Set sized of the buttons
+        Dimension maxDimension = Utils.getMaxDimension(
+                new Dimension((int) (bBack.getPreferredSize().width * 1.4), (int) (bBack.getPreferredSize().height * 1.2)),
+                new Dimension((int) (bSave.getPreferredSize().width * 1.4), (int) (bSave.getPreferredSize().height * 1.2))
+        );
+        bBack.setBothSize(maxDimension);
+        bSave.setBothSize(maxDimension);
+
+        // Language
+        JPanel comboBoxLanguagePanel = new JPanel();
+        comboBoxLanguagePanel.setLayout(new BoxLayout(comboBoxLanguagePanel, BoxLayout.X_AXIS));
+
+        JLabelPersonalized lLanguage = new JLabelPersonalized(
+                TranslationManager.get("register.language.label"), 20, true
+        );
+        JComboBox<LanguageConstants> comboBoxLanguage = new JComboBox<>(LanguageConstants.values());
+        Dimension dimension = lUsername.getPreferredSize();
+        dimension.width *= 2;
+        comboBoxLanguage.setMaximumSize(dimension);
+        comboBoxLanguage.setPreferredSize(dimension);
+        comboBoxLanguage.setSelectedItem(LanguageConstants.getLangItem(user.getLang()));
+        lang = user.getLang();
+        comboBoxLanguage.addActionListener(e -> {
+            LanguageConstants selectedLang = (LanguageConstants) comboBoxLanguage.getSelectedItem();
+            lang = selectedLang.getLang();
+        });
+
+        comboBoxLanguagePanel.add(lLanguage);
+        comboBoxLanguagePanel.add(Box.createHorizontalStrut(50));
+        comboBoxLanguagePanel.add(comboBoxLanguage);
 
         avatarPanel.add(lAvatar);
         avatarPanel.add(Box.createHorizontalStrut(50));
@@ -117,6 +148,8 @@ public class EditProfile extends JFrame {
         avatarPanel.add(bNextAvatar);
 
         userPanel.add(lUsername);
+        userPanel.add(Box.createVerticalGlue());
+        userPanel.add(comboBoxLanguagePanel);
         userPanel.add(Box.createVerticalGlue());
         userPanel.add(avatarPanel);
 

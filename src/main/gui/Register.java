@@ -1,21 +1,11 @@
 package main.gui;
 
+import main.constants.LanguageConstants;
 import main.constants.MessageConstants;
 import main.services.RegisterService;
-import main.utils.Utils;
-import main.utils.ImageIconPersonalized;
-import main.utils.JButtonPersonalized;
-import main.utils.JButtonWithIcon;
-import main.utils.JLabelPersonalized;
+import main.utils.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import javax.swing.BoxLayout;
-import javax.swing.JTextField;
-import javax.swing.Box;
-import java.awt.Font;
-import java.awt.Component;
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -28,9 +18,13 @@ public class Register extends JFrame {
     private final RegisterService registerService = new RegisterService();
     private final Timer timer;
     private int actualAvatar = 0;
+    private String lang;
 
     public Register() {
         Utils.setFrameParameters(this);
+
+        // Set the language to 'en' to ensure problems
+        TranslationManager.setLanguage("en");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -56,10 +50,9 @@ public class Register extends JFrame {
         // Previous Avatar
         JButtonWithIcon bPreviousAvatar = new JButtonWithIcon(
                 "previous.png",
-                "Avatar précédent",
+                TranslationManager.get("register.previousAvatar.tooltip"),
                 true
         );
-        bPreviousAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
         bPreviousAvatar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -70,10 +63,9 @@ public class Register extends JFrame {
         // Next Avatar
         JButtonWithIcon bNextAvatar = new JButtonWithIcon(
                 "next.png",
-                "Avatar suivant",
+                TranslationManager.get("register.nextAvatar.tooltip"),
                 true
         );
-        bNextAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
         bNextAvatar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -82,36 +74,37 @@ public class Register extends JFrame {
         });
 
         // Register
-        JLabelPersonalized lRegister = new JLabelPersonalized("Register", 50, true);
+        JLabelPersonalized lRegister = new JLabelPersonalized(
+                TranslationManager.get("register.register.title"), 50, true
+        );
 
         // Label Username
-        JLabelPersonalized lUsername = new JLabelPersonalized("Username", 20, true);
+        JLabelPersonalized lUsername = new JLabelPersonalized(
+                TranslationManager.get("register.username.label"), 20, true
+        );
 
         // Label Error
         JLabelPersonalized lError = new JLabelPersonalized("", 14, true);
         lError.setForeground(Color.RED);
 
         // TextField Username
-        JTextField tfUsername = new JTextField();
-        tfUsername.setFont(new Font("Arial", Font.PLAIN, 18));
-        Dimension dimensionUsername = new Dimension(tfUsername.getFontMetrics(tfUsername.getFont()).charWidth('W') * 20, lUsername.getPreferredSize().height);
-        tfUsername.setMaximumSize(dimensionUsername);
-        tfUsername.setPreferredSize(dimensionUsername);
-        tfUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JTextFieldPersonalized tfUsername = new JTextFieldPersonalized(lUsername);
 
         // Register
-        JButtonPersonalized bRegister = new JButtonPersonalized("Register", "Créer un compte");
-        Dimension dimensionRegister = new Dimension((int) (bRegister.getPreferredSize().width * 1.4), (int) (bRegister.getPreferredSize().height * 1.2));
-        bRegister.setBothSize(dimensionRegister);
+        JButtonPersonalized bRegister = new JButtonPersonalized(
+                TranslationManager.get("register.register.button"),
+                TranslationManager.get("register.register.tooltip")
+        );
         bRegister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String username = tfUsername.getText();
                 Timestamp date = Timestamp.from(ZonedDateTime.now().toInstant());
                 String avatar = listOfAvatar.get(actualAvatar);
-                String language = "EN";
+                String language = lang;
                 MessageConstants message = registerService.registerUser(username, date, avatar, language);
                 if (message.getBool()) {
+                    TranslationManager.setLanguage(language);
                     dispose();
                     new ProfileGame(username, true, true).setVisible(true);
                 } else {
@@ -125,8 +118,10 @@ public class Register extends JFrame {
         timer.setRepeats(false);
 
         // Back
-        JButtonPersonalized bBack = new JButtonPersonalized("Back", "Retour à l'écran d'accueil");
-        bBack.setBothSize(dimensionRegister);
+        JButtonPersonalized bBack = new JButtonPersonalized(
+                TranslationManager.get("register.back.button"),
+                TranslationManager.get("register.back.tooltip")
+        );
         bBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -134,6 +129,36 @@ public class Register extends JFrame {
                 new Home().setVisible(true);
             }
         });
+
+        // Set the size of buttons with the max size
+        Dimension maxDimension = Utils.getMaxDimension(
+                new Dimension((int) (bRegister.getPreferredSize().width * 1.4), (int) (bRegister.getPreferredSize().height * 1.2)),
+                new Dimension((int) (bBack.getPreferredSize().width * 1.4), (int) (bBack.getPreferredSize().height * 1.2))
+        );
+        bRegister.setBothSize(maxDimension);
+        bBack.setBothSize(maxDimension);
+
+        // Language
+        JPanel comboBoxLanguagePanel = new JPanel();
+        comboBoxLanguagePanel.setLayout(new BoxLayout(comboBoxLanguagePanel, BoxLayout.X_AXIS));
+
+        JLabelPersonalized lLanguage = new JLabelPersonalized(
+                TranslationManager.get("register.language.label"), 20, true
+        );
+        JComboBox<LanguageConstants> comboBoxLanguage = new JComboBox<>(LanguageConstants.values());
+        Dimension dimension = lUsername.getPreferredSize();
+        dimension.width *= 2;
+        comboBoxLanguage.setMaximumSize(dimension);
+        comboBoxLanguage.setPreferredSize(dimension);
+        lang = LanguageConstants.values()[0].getLang();
+        comboBoxLanguage.addActionListener(e -> {
+            LanguageConstants selectedLang = (LanguageConstants) comboBoxLanguage.getSelectedItem();
+            lang = selectedLang.getLang();
+        });
+
+        comboBoxLanguagePanel.add(lLanguage);
+        comboBoxLanguagePanel.add(Box.createHorizontalStrut(50));
+        comboBoxLanguagePanel.add(comboBoxLanguage);
 
         avatarPanel.add(lAvatar);
         avatarPanel.add(Box.createHorizontalStrut(50));
@@ -157,6 +182,8 @@ public class Register extends JFrame {
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(usernamePanel);
         mainPanel.add(lError);
+        mainPanel.add(Box.createVerticalGlue());
+        mainPanel.add(comboBoxLanguagePanel);
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(avatarPanel);
         mainPanel.add(Box.createVerticalGlue());

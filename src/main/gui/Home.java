@@ -2,6 +2,7 @@ package main.gui;
 
 import main.utils.JButtonPersonalized;
 import main.utils.JLabelPersonalized;
+import main.utils.TranslationManager;
 import main.utils.Utils;
 
 import javax.swing.JFrame;
@@ -23,6 +24,9 @@ public class Home extends JFrame {
     public Home() {
         Utils.setFrameParameters(this);
 
+        // Set the language to 'en' to ensure problems
+        TranslationManager.setLanguage("en");
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -30,7 +34,9 @@ public class Home extends JFrame {
         JLabel l2048 = new JLabelPersonalized("2048", 50, true);
 
         // Login
-        JButtonPersonalized bLogin = new JButtonPersonalized("Login", "Se connecter");
+        JButtonPersonalized bLogin = new JButtonPersonalized(
+                TranslationManager.get("home.login.button"),
+                TranslationManager.get("home.login.tooltip"));
         Dimension dimensionBLogin = new Dimension((int) (bLogin.getPreferredSize().width * 1.4), (int) (bLogin.getPreferredSize().height * 1.2));
         bLogin.setBothSize(dimensionBLogin);
         bLogin.addMouseListener(new MouseAdapter() {
@@ -42,8 +48,8 @@ public class Home extends JFrame {
         });
 
         // Register
-        JLabelPersonalized lRegister = new JLabelPersonalized("Register", 30, true);
-        lRegister.setToolTipText("Se créer un compte");
+        JLabelPersonalized lRegister = new JLabelPersonalized(TranslationManager.get("home.register.button"), 30, true);
+        lRegister.setToolTipText(TranslationManager.get("home.register.tooltip"));
         lRegister.setForeground(Utils.blue);
         Font font = lRegister.getFont();
         Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes());

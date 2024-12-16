@@ -3,11 +3,7 @@ package main.gui;
 import main.entities.User;
 import main.entities.UserGamesDetails;
 import main.services.ProfileService;
-import main.utils.ImageIconPersonalized;
-import main.utils.JButtonProfileGame;
-import main.utils.JButtonWithIcon;
-import main.utils.JLabelPersonalized;
-import main.utils.Utils;
+import main.utils.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Profile extends JFrame {
+
+    // Essayer de mettre une colonne vide entre les colonnes du GridLayout
 
     public Profile(String username) {
         Utils.setFrameParameters(this);
@@ -56,13 +54,16 @@ public class Profile extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         // Label Profile
-        JButtonProfileGame lProfile = new JButtonProfileGame("Profile", false, "");
-        Dimension dimensionLProfile = new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2));
-        lProfile.setBothSize(dimensionLProfile);
+        JButtonProfileGame lProfile = new JButtonProfileGame(
+                TranslationManager.get("profile.profile.button"), false, ""
+        );
 
         // Label Game
-        JButtonProfileGame lGame = new JButtonProfileGame("Game", true, "Aller a l'écran de jeu");
-        lGame.setBothSize(dimensionLProfile);
+        JButtonProfileGame lGame = new JButtonProfileGame(
+                TranslationManager.get("profile.game.button"),
+                true,
+                TranslationManager.get("profile.game.tooltip")
+        );
         lGame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -70,6 +71,14 @@ public class Profile extends JFrame {
                 new ProfileGame(username, false, false).setVisible(true);
             }
         });
+
+        // Set sizes of the buttons
+        Dimension maxDimension = Utils.getMaxDimension(
+                new Dimension((int) (Utils.frameWidth * 0.5), (int) (lProfile.getPreferredSize().height * 1.2)),
+                new Dimension((int) (Utils.frameWidth * 0.5), (int) (lGame.getPreferredSize().height * 1.2))
+        );
+        lProfile.setBothSize(maxDimension);
+        lGame.setBothSize(maxDimension);
 
         // Label Username
         JLabelPersonalized lUsername = new JLabelPersonalized(username, 30, true);
@@ -80,7 +89,7 @@ public class Profile extends JFrame {
         // Button Edit
         JButtonWithIcon bEdit = new JButtonWithIcon(
                 "edit.png",
-                "Modifier les informations du profil",
+                TranslationManager.get("profile.edit.tooltip"),
                 false
         );
         bEdit.addMouseListener(new MouseAdapter() {
@@ -92,7 +101,9 @@ public class Profile extends JFrame {
         });
 
         // Date
-        JLabelPersonalized lDate = new JLabelPersonalized("Date de création", 20, false);
+        JLabelPersonalized lDate = new JLabelPersonalized(
+                TranslationManager.get("profile.creationDate.label"), 20, false
+        );
 
         LocalDateTime date = user.getDateTime().toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
@@ -101,27 +112,39 @@ public class Profile extends JFrame {
         JLabelPersonalized lDateValue = new JLabelPersonalized(result, 20, false);
 
         // Lang
-        JLabelPersonalized lLang = new JLabelPersonalized("Lang", 20, false);
+        JLabelPersonalized lLang = new JLabelPersonalized(
+                TranslationManager.get("profile.lang.label"), 20, false
+        );
         JLabelPersonalized lLangValue = new JLabelPersonalized(user.getLang(), 20, false);
 
         // Best Score
-        JLabelPersonalized lBestScore = new JLabelPersonalized("Best Score", 20, false);
+        JLabelPersonalized lBestScore = new JLabelPersonalized(
+                TranslationManager.get("profile.bestScore.label"), 20, false
+        );
         JLabelPersonalized lBestScoreValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getBestScore()), 20, false);
 
-        // Nb Parties
-        JLabelPersonalized lNbParties = new JLabelPersonalized("Nb Parties", 20, false);
-        JLabelPersonalized lNbPartiesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbParties()), 20, false);
-
         // Score Moyen
-        JLabelPersonalized lScoreMoyen = new JLabelPersonalized("Score Moyen", 20, false);
+        JLabelPersonalized lScoreMoyen = new JLabelPersonalized(
+                TranslationManager.get("profile.averageScore.label"), 20, false
+        );
         JLabelPersonalized lScoreMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getScoreMoyen()), 20, false);
 
         // Nb Coups Moyen
-        JLabelPersonalized lNbCoupsMoyen = new JLabelPersonalized("Nb Coups Moyen", 20, false);
+        JLabelPersonalized lNbCoupsMoyen = new JLabelPersonalized(
+                TranslationManager.get("profile.averageNumberMoves.label"), 20, false
+        );
         JLabelPersonalized lNbCoupsMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbCoupsMoyen()), 20, false);
 
+        // Nb Parties
+        JLabelPersonalized lNbParties = new JLabelPersonalized(
+                TranslationManager.get("profile.numberGames.label"), 20, false
+        );
+        JLabelPersonalized lNbPartiesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbParties()), 20, false);
+
         // Nb Parties Gagnees
-        JLabelPersonalized lNbPartiesGagnees = new JLabelPersonalized("Nb Parties Gagnees", 20, false);
+        JLabelPersonalized lNbPartiesGagnees = new JLabelPersonalized(
+                TranslationManager.get("profile.numberGamesWon.label"), 20, false
+        );
         JLabelPersonalized lNbPartiesGagneesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbPartiesGagnees()), 20, false);
 
         editPanel.add(Box.createHorizontalGlue());
@@ -134,9 +157,9 @@ public class Profile extends JFrame {
         userDetailsPanel.add(lDate); userDetailsPanel.add(lDateValue);
         userDetailsPanel.add(lLang); userDetailsPanel.add(lLangValue);
         userDetailsPanel.add(lBestScore); userDetailsPanel.add(lBestScoreValue);
-        userDetailsPanel.add(lNbParties); userDetailsPanel.add(lNbPartiesValue);
         userDetailsPanel.add(lScoreMoyen); userDetailsPanel.add(lScoreMoyenValue);
         userDetailsPanel.add(lNbCoupsMoyen); userDetailsPanel.add(lNbCoupsMoyenValue);
+        userDetailsPanel.add(lNbParties); userDetailsPanel.add(lNbPartiesValue);
         userDetailsPanel.add(lNbPartiesGagnees); userDetailsPanel.add(lNbPartiesGagneesValue);
 
         userDetailsPanelCenter.add(Box.createHorizontalGlue());

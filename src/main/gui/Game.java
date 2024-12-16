@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Game extends JFrame {
     private final GameService gameService = new GameService();
@@ -59,18 +58,24 @@ public class Game extends JFrame {
         // Button Exit
         JButtonWithIcon bExit = new JButtonWithIcon(
                 "exit.png",
-                "Quitter la partie",
+                TranslationManager.get("game.exit.tooltip"),
                 false
         );
         bExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String message = "Voulez-vous vraiment quitter la partie ?";
-                String[] options = {"Oui", "Non"};
-                String[] toolTipTexts = {"Quitter la partie", "Continuer la partie"};
-                String choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
+                String message = TranslationManager.get("game.exit.message");
+                String[] options = {
+                        TranslationManager.get("game.exit.yes.button"),
+                        TranslationManager.get("game.exit.no.button")
+                };
+                String[] toolTipTexts = {
+                        TranslationManager.get("game.exit.yes.tooltip"),
+                        TranslationManager.get("game.exit.no.tooltip")
+                };
+                int choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
 
-                if (Objects.equals(choice, "Oui")) {
+                if (choice == 0) {
                     dispose();
                     new ProfileGame(username, false, false).setVisible(true);
                 } else {
@@ -95,19 +100,25 @@ public class Game extends JFrame {
         JLabelPersonalized l2048 = new JLabelPersonalized("2048", 30, true);
 
         // Label Score
-        JLabelPersonalizedForGridLayout lScore = new JLabelPersonalizedForGridLayout("Score", 24);
+        JLabelPersonalizedForGridLayout lScore = new JLabelPersonalizedForGridLayout(
+                TranslationManager.get("game.score.label"), 24
+        );
 
         // Label Score Joueur
         lScoreJoueur = new JLabelPersonalizedForGridLayout(String.valueOf(plateau.getScore()), 24);
 
         // Label BestScore
-        JLabelPersonalizedForGridLayout lBestScore = new JLabelPersonalizedForGridLayout("Best Score", 24);
+        JLabelPersonalizedForGridLayout lBestScore = new JLabelPersonalizedForGridLayout(
+                TranslationManager.get("game.bestScore.label"), 24
+        );
 
         // Label BestScoreJoueur
         JLabelPersonalizedForGridLayout lBestScoreJoueur = new JLabelPersonalizedForGridLayout(String.valueOf(userBestScore), 24);
 
         // Label Moves
-        JLabelPersonalizedForGridLayout lMoves = new JLabelPersonalizedForGridLayout("Moves", 24);
+        JLabelPersonalizedForGridLayout lMoves = new JLabelPersonalizedForGridLayout(
+                TranslationManager.get("game.moves.label"), 24
+        );
 
         // Label MovesNb
         lMovesNb = new JLabelPersonalizedForGridLayout(String.valueOf(plateau.getNbCoups()), 24);
@@ -218,47 +229,57 @@ public class Game extends JFrame {
             // On verifie si le joueur a atteint 2048
             if (plateau.joueurAtteint2048() && !plateau.getatteint2048()) {
                 String message = Utils.getMessageFin(false, true, plateau.getBestTuile());
-                String[] options = {"Quitter", "Recommencer", "Continuer"};
-                String[] toolTipTexts = {"Revenir au menu du jeu", "Recommencer une nouvelle partie", "Continuer la partie"};
-                String choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
+                String[] options = {
+                        TranslationManager.get("game.win.quit.button"),
+                        TranslationManager.get("game.win.retry.button"),
+                        TranslationManager.get("game.win.continue.button")
+                };
+                String[] toolTipTexts = {
+                        TranslationManager.get("game.win.quit.tooltip"),
+                        TranslationManager.get("game.win.retry.tooltip"),
+                        TranslationManager.get("game.win.continue.tooltip")
+                };
+                int choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
 
-                if (Objects.equals(choice, "Continuer")) {
+                if (choice == 2) {
                     plateau.setatteint2048(true);
                     mainPanel.requestFocusInWindow();
                 } else {
                     // Enregistrement dans la BDD
                     Games games = new Games(username, plateau.getScore(), plateau.getNbCoups(), plateau.getBestTuile(), true);
 
-//                    boolean gameRegistered = gameService.registerGames(games);
                     gameService.registerGames(games);
 
-                    if (Objects.equals(choice, "Quitter")) {
-                        dispose();
+                    dispose();
+                    if (choice == 0) {
                         new ProfileGame(username, false, false).setVisible(true);
                     } else {
-                        dispose();
                         new Game(username).setVisible(true);
                     }
                 }
             }
-             // On verifie si le joueur ne peut plus effectuer de deplacement
+            // On verifie si le joueur ne peut plus effectuer de deplacement
             if (plateau.gameOver()) {
                 String message = Utils.getMessageFin(true, plateau.getatteint2048(), plateau.getBestTuile());
-                String[] options = {"Quitter", "Recommencer"};
-                String[] toolTipTexts = {"Revenir au menu du jeu", "Recommencer une nouvelle partie"};
-                String choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
+                String[] options = {
+                        TranslationManager.get("game.lost.quit.button"),
+                        TranslationManager.get("game.lost.retry.button")
+                };
+                String[] toolTipTexts = {
+                        TranslationManager.get("game.lost.quit.tooltip"),
+                        TranslationManager.get("game.lost.retry.tooltip")
+                };
+                int choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
 
                 // Enregistrement dans la BDD
                 Games games = new Games(username, plateau.getScore(), plateau.getNbCoups(), plateau.getBestTuile(), plateau.getatteint2048());
 
-//                boolean gameRegistered = gameService.registerGames(games);
                 gameService.registerGames(games);
 
-                if (Objects.equals(choice, "Recommencer")) {
-                    dispose();
+                dispose();
+                if (choice == 1) {
                     new Game(username).setVisible(true);
                 } else {
-                    dispose();
                     new ProfileGame(username, false, false).setVisible(true);
                 }
             }
