@@ -50,6 +50,7 @@ public class Plateau {
 //        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
 //        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseNumero(8), new CaseNumero(16), new CaseNumero(32), new CaseNumero(64)));
 //        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
+////        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(128), new CaseNumero(256), new CaseNumero(512), new CaseVide()));
 //        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(512), new CaseNumero(512), new CaseNumero(1024), new CaseVide()));
 //        cases.add(ligne1);
 //        cases.add(ligne2);
@@ -176,26 +177,20 @@ public class Plateau {
 
         switch (fleche) {
             case "Down":
-                start = 3;
-                actif_j = 1;
-                direction_i = -1;
+                start = 3; actif_j = 1; direction_i = -1;
                 break;
             case "Up":
-                actif_j = 1;
-                direction_i = 1;
+                actif_j = 1; direction_i = 1;
                 break;
             case "Left":
-                actif_i = 1;
-                direction_j = 1;
+                actif_i = 1; direction_j = 1;
                 break;
             case "Right":
-                start = 3;
-                actif_i = 1;
-                direction_j = -1;
+                start = 3; actif_i = 1; direction_j = -1;
                 break;
         }
 
-        for (int ind = 0; ind < 4; ind++) {
+        for (int ind = 0; ind < cote; ind++) {
             Case case1 = cases.get(ind * actif_i + (1 - actif_i) * (start)).get(ind * actif_j + (1 - actif_j) * (start));
             Case case2 = cases.get(ind * actif_i + (1 - actif_i) * (start + direction_i)).get(ind * actif_j + (1 - actif_j) * (start + direction_j));
             Case case3 = cases.get(ind * actif_i + (1 - actif_i) * (start + direction_i * 2)).get(ind * actif_j + (1 - actif_j) * (start + direction_j * 2));

@@ -16,9 +16,9 @@ public class Main {
 //            Register frame = new Register();
 //            Login frame = new Login();
 //            ProfileGame frame = new ProfileGame("TestUser", true, true);
-            Profile frame = new Profile("TestUser");
+//            Profile frame = new Profile("TestUser");
 //            EditProfile frame = new EditProfile("TestUser");
-//            Game frame = new Game("TestUser");
+            Game frame = new Game("TestUser");
             frame.setVisible(true);
         });
 

@@ -1,5 +1,6 @@
 package main.gui;
 
+import main.constants.LanguageConstants;
 import main.entities.User;
 import main.entities.UserGamesDetails;
 import main.services.ProfileService;
@@ -48,7 +49,7 @@ public class Profile extends JFrame {
         JPanel userDetailsPanelCenter = new JPanel();
         userDetailsPanelCenter.setLayout(new BoxLayout(userDetailsPanelCenter, BoxLayout.X_AXIS));
 
-        JPanel userDetailsPanel = new JPanel(new GridLayout(7, 2, 0, 20));
+        JPanel userDetailsPanel = new JPanel(new GridLayout(7, 2, 0, 0));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -105,47 +106,59 @@ public class Profile extends JFrame {
                 TranslationManager.get("profile.creationDate.label"), 20, false
         );
 
+        Locale locale = LanguageConstants.getLocale(LanguageConstants.getLangItem(user.getLang()));
         LocalDateTime date = user.getDateTime().toLocalDateTime();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TranslationManager.get("date.format"), locale);
         String formattedDate = date.format(formatter);
-        String result = formattedDate.substring(0, 3) + formattedDate.substring(3).substring(0, 1).toUpperCase() + formattedDate.substring(4);
-        JLabelPersonalized lDateValue = new JLabelPersonalized(result, 20, false);
+        JLabelPersonalizedForGridLayout lDateValue = new JLabelPersonalizedForGridLayout(formattedDate, 20);
 
         // Lang
         JLabelPersonalized lLang = new JLabelPersonalized(
                 TranslationManager.get("profile.lang.label"), 20, false
         );
-        JLabelPersonalized lLangValue = new JLabelPersonalized(user.getLang(), 20, false);
+        JLabelPersonalizedForGridLayout lLangValue = new JLabelPersonalizedForGridLayout(
+                LanguageConstants.getLangItem(user.getLang()).toString(), 20
+        );
 
         // Best Score
         JLabelPersonalized lBestScore = new JLabelPersonalized(
                 TranslationManager.get("profile.bestScore.label"), 20, false
         );
-        JLabelPersonalized lBestScoreValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getBestScore()), 20, false);
+        JLabelPersonalizedForGridLayout lBestScoreValue = new JLabelPersonalizedForGridLayout(
+                String.valueOf(userGamesDetails.getBestScore()), 20
+        );
 
         // Score Moyen
         JLabelPersonalized lScoreMoyen = new JLabelPersonalized(
                 TranslationManager.get("profile.averageScore.label"), 20, false
         );
-        JLabelPersonalized lScoreMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getScoreMoyen()), 20, false);
+        JLabelPersonalizedForGridLayout lScoreMoyenValue = new JLabelPersonalizedForGridLayout(
+                String.valueOf(userGamesDetails.getScoreMoyen()), 20
+        );
 
         // Nb Coups Moyen
         JLabelPersonalized lNbCoupsMoyen = new JLabelPersonalized(
                 TranslationManager.get("profile.averageNumberMoves.label"), 20, false
         );
-        JLabelPersonalized lNbCoupsMoyenValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbCoupsMoyen()), 20, false);
+        JLabelPersonalizedForGridLayout lNbCoupsMoyenValue = new JLabelPersonalizedForGridLayout(
+                String.valueOf(userGamesDetails.getNbCoupsMoyen()), 20
+        );
 
         // Nb Parties
         JLabelPersonalized lNbParties = new JLabelPersonalized(
                 TranslationManager.get("profile.numberGames.label"), 20, false
         );
-        JLabelPersonalized lNbPartiesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbParties()), 20, false);
+        JLabelPersonalizedForGridLayout lNbPartiesValue = new JLabelPersonalizedForGridLayout(
+                String.valueOf(userGamesDetails.getNbParties()), 20
+        );
 
         // Nb Parties Gagnees
         JLabelPersonalized lNbPartiesGagnees = new JLabelPersonalized(
                 TranslationManager.get("profile.numberGamesWon.label"), 20, false
         );
-        JLabelPersonalized lNbPartiesGagneesValue = new JLabelPersonalized(String.valueOf(userGamesDetails.getNbPartiesGagnees()), 20, false);
+        JLabelPersonalizedForGridLayout lNbPartiesGagneesValue = new JLabelPersonalizedForGridLayout(
+                String.valueOf(userGamesDetails.getNbPartiesGagnees()), 20
+        );
 
         editPanel.add(Box.createHorizontalGlue());
         editPanel.add(bEdit);

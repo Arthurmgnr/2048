@@ -5,7 +5,6 @@ import main.utils.Utils;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.BoxLayout;
@@ -23,19 +22,20 @@ public class JDialogPersonalized extends JDialog {
 
     public JDialogPersonalized(JFrame parent, String message, String[] options, String[] toolTipTexts) {
         Dimension maxDimension = new Dimension(0, 0);
-        for (String option: options) {
-            JButton bOption = new JButton(option);
+        for (int i = 0; i < options.length; i++) {
+            JButtonPersonalized bOption = new JButtonPersonalized(options[i], toolTipTexts[i]);
             bOption.setFont(new Font("Arial", Font.BOLD, 20));
             Dimension dimension = new Dimension((int) (bOption.getPreferredSize().width * 1.4), (int) (bOption.getPreferredSize().height * 1.2));
-            if (dimension.height > maxDimension.height) {
+            if (dimension.width > maxDimension.width) {
                 maxDimension.height = dimension.height;
                 maxDimension.width = dimension.width;
             }
         }
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//        setSize((int) (0.5 * Utils.frameWidth), (int) (0.5 * Utils.frameHeight));
-        setSize(4 * maxDimension.width, (int) (0.5 * Utils.frameHeight));
+        int testWidth = (options.length + 1) * maxDimension.width + (options.length - 1) * 50;
+        int width = Math.max(testWidth, (int) (0.5 * Utils.frameWidth));
+        setSize(width, (int) (0.5 * Utils.frameHeight));
         setLocationRelativeTo(parent);
         setTitle("2048");
         setResizable(false);
@@ -60,7 +60,6 @@ public class JDialogPersonalized extends JDialog {
 
         // JButton for all options
         for (int i = 0; i < options.length; i++) {
-//        for (String option: options) {
             JButtonPersonalized bOption = new JButtonPersonalized(options[i], toolTipTexts[i]);
             bOption.setFont(new Font("Arial", Font.BOLD, 20));
             bOption.setBothSize(maxDimension);

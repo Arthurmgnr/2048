@@ -1,5 +1,7 @@
 package main.constants;
 
+import java.util.Locale;
+
 public enum LanguageConstants {
     English("EN"), French("FR");
 
@@ -16,5 +18,16 @@ public enum LanguageConstants {
             }
         }
         return English;
+    }
+
+    public static Locale getLocale(LanguageConstants languageConstants) {
+        // Retourne l'objet Locale correspondant à la langue
+        switch (languageConstants) {
+            case French:
+                return Locale.FRENCH;  // Locale pour la langue française
+            case English:
+            default:
+                return Locale.ENGLISH;  // Locale pour la langue anglaise
+        }
     }
 }

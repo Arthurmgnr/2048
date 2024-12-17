@@ -235,6 +235,13 @@ public class TranslationManager {
         fr.put("messageConstants.loginSuccessful", "Connexion réussie");
     }
 
+    // Date
+    static {
+        en.put("date.format", "MMMM dd, yyyy");
+
+        fr.put("date.format", "d MMMM yyyy");
+    }
+
     public static void setLanguage(String languageCode) {
         switch (languageCode) {
             case "FR":
