@@ -1,8 +1,8 @@
 package main.gui;
 
 import main.constants.LanguageConstants;
-import main.entities.User;
-import main.entities.UserGamesDetails;
+import main.model.User;
+import main.model.UserGamesDetails;
 import main.services.ProfileService;
 import main.utils.*;
 
@@ -49,7 +49,7 @@ public class Profile extends JFrame {
         JPanel userDetailsPanelCenter = new JPanel();
         userDetailsPanelCenter.setLayout(new BoxLayout(userDetailsPanelCenter, BoxLayout.X_AXIS));
 
-        JPanel userDetailsPanel = new JPanel(new GridLayout(7, 2, 0, 0));
+        JPanel userDetailsPanel = new JPanel(new GridLayout(7, 2));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));

@@ -103,7 +103,7 @@ public class TranslationManager {
         fr.put("profile.lang.label", "Langue");
         fr.put("profile.bestScore.label", "Meilleur score");
         fr.put("profile.averageScore.label", "Score moyen");
-        fr.put("profile.averageNumberMoves.label", "Nombre moyen");
+        fr.put("profile.averageNumberMoves.label", "Nombre de coups moyen");
         fr.put("profile.numberGames.label", "Nombre de parties");
         fr.put("profile.numberGamesWon.label", "Nombre de parties gagnées");
         fr.put("profile.profile.button", "Profil");

@@ -1,7 +1,7 @@
 package main.repositories;
 
 import main.DBConnection;
-import main.entities.User;
+import main.model.User;
 
 import java.sql.*;
 
@@ -9,9 +9,11 @@ public class EditProfileRepository {
     private final Connection connection = DBConnection.getConnection();
 
     public User getUserDetails(String username) {
-        String query = "SELECT username, avatar, creationdate, lang \n" +
-                        "FROM users \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT username, avatar, creationdate, lang\s
+                        FROM users\s
+                        WHERE username = ?
+                        """;
         User user = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -30,9 +32,11 @@ public class EditProfileRepository {
     }
 
     public boolean updateUser(User user) {
-        String query = "UPDATE users \n" +
-                        "SET lang = ?, avatar = ? \n" +
-                        "WHERE username = ?";
+        String query = """
+                        UPDATE users\s
+                        SET lang = ?, avatar = ?\s
+                        WHERE username = ?
+                        """;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, user.getLang());
             stmt.setString(2, user.getAvatar());

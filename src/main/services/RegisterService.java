@@ -1,7 +1,7 @@
 package main.services;
 
 import main.constants.MessageConstants;
-import main.entities.User;
+import main.model.User;
 import main.repositories.RegisterRepository;
 
 import java.sql.Timestamp;

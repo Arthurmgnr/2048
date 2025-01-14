@@ -1,7 +1,7 @@
 package main.services;
 
-import main.entities.User;
-import main.entities.UserGamesDetails;
+import main.model.User;
+import main.model.UserGamesDetails;
 import main.repositories.ProfileRepository;
 
 public class ProfileService {

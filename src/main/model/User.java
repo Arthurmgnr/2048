@@ -1,4 +1,4 @@
-package main.entities;
+package main.model;
 
 import java.sql.Timestamp;
 

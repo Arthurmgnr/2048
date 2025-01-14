@@ -1,6 +1,6 @@
 package main.services;
 
-import main.entities.User;
+import main.model.User;
 import main.repositories.EditProfileRepository;
 
 public class EditProfileService {

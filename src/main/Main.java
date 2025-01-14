@@ -12,13 +12,13 @@ public class Main {
 //        System.out.println();
 
         SwingUtilities.invokeLater(() -> {
-//            Home frame = new Home();
+            Home frame = new Home();
 //            Register frame = new Register();
 //            Login frame = new Login();
 //            ProfileGame frame = new ProfileGame("TestUser", true, true);
-//            Profile frame = new Profile("TestUser");
+//            Profile frame = new Profile("Arthur");
 //            EditProfile frame = new EditProfile("TestUser");
-            Game frame = new Game("TestUser");
+//            Game frame = new Game("TestUser");
             frame.setVisible(true);
         });
 

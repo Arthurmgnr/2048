@@ -1,7 +1,7 @@
 package main.gui;
 
 import main.constants.LanguageConstants;
-import main.entities.User;
+import main.model.User;
 import main.services.EditProfileService;
 import main.utils.*;
 

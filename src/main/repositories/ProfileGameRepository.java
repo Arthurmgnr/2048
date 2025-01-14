@@ -1,8 +1,8 @@
 package main.repositories;
 
 import main.DBConnection;
-import main.entities.User;
-import main.entities.UserGamesDetails;
+import main.model.User;
+import main.model.UserGamesDetails;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +13,11 @@ public class ProfileGameRepository {
     private final Connection connection = DBConnection.getConnection();
 
     public UserGamesDetails getBestScore(String username) {
-        String query = "SELECT MAX(score) \n" +
-                        "FROM games \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT MAX(score)\s
+                        FROM games\s
+                        WHERE username = ?
+                        """;
         UserGamesDetails user = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -31,9 +33,11 @@ public class ProfileGameRepository {
     }
 
     public User getUserDetails(String username) {
-        String query = "SELECT avatar, lang \n" +
-                        "FROM users \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT avatar, lang\s
+                        FROM users\s
+                        WHERE username = ?
+                        """;
         User user = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);

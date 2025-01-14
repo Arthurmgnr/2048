@@ -1,8 +1,8 @@
 package main.repositories;
 
 import main.DBConnection;
-import main.entities.User;
-import main.entities.UserGamesDetails;
+import main.model.User;
+import main.model.UserGamesDetails;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +13,11 @@ public class ProfileRepository {
     private final Connection connection = DBConnection.getConnection();
 
     public User getUserDetails(String username) {
-        String query = "SELECT username, avatar, creationdate, lang \n" +
-                        "FROM users \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT username, avatar, creationdate, lang\s
+                        FROM users\s
+                        WHERE username = ?
+                        """;
         User user = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -34,13 +36,15 @@ public class ProfileRepository {
     }
 
     public UserGamesDetails getUserGamesDetails(String username) {
-        String query = "SELECT MAX(score) AS bestScore, \n" +
-                                "COUNT(*) AS nbParties, \n" +
-                                "AVG(score) AS scoreMoyen, \n" +
-                                "AVG(moves)AS nbCoupsMoyen, \n" +
-                                "COUNT(*) FILTER (WHERE win = TRUE) AS nbPartiesGagnees\n" +
-                        "FROM games \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT MAX(score) AS bestScore,\s
+                            COUNT(*) AS nbParties,\s
+                            AVG(score) AS scoreMoyen,\s
+                            AVG(moves)AS nbCoupsMoyen,\s
+                            COUNT(*) FILTER (WHERE win = TRUE) AS nbPartiesGagnees
+                        FROM games\s
+                        WHERE username = ?
+                        """;
         UserGamesDetails userGamesDetails = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);

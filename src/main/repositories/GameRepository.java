@@ -1,7 +1,7 @@
 package main.repositories;
 
 import main.DBConnection;
-import main.entities.Games;
+import main.model.Games;
 
 import java.sql.*;
 
@@ -9,9 +9,11 @@ public class GameRepository {
     private final Connection connection = DBConnection.getConnection();
 
     public String getUserAvatar(String username) {
-        String query = "SELECT avatar \n" +
-                        "FROM users \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT avatar\s
+                        FROM users\s
+                        WHERE username = ?
+                        """;
         String userAvatar = null;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -26,9 +28,11 @@ public class GameRepository {
     }
 
     public int getUserBestScore(String username) {
-        String query = "SELECT MAX(score) AS bestScore \n" +
-                        "FROM games \n" +
-                        "WHERE username = ?";
+        String query = """
+                        SELECT MAX(score) AS bestScore\s
+                        FROM games\s
+                        WHERE username = ?
+                        """;
         int userBestScore = 0;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -43,8 +47,10 @@ public class GameRepository {
     }
 
     public boolean registerGames(Games games) {
-        String query = "INSERT INTO games (username, score, moves, bestTile, win) \n" +
-                        "VALUES (?, ?, ?, ?, ?)";
+        String query = """
+                        INSERT INTO games (username, score, moves, bestTile, win)
+                        VALUES (?, ?, ?, ?, ?)
+                        """;
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, games.getUsername());
             stmt.setInt(2, games.getScore());

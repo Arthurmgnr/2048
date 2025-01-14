@@ -1,6 +1,6 @@
 package main.services;
 
-import main.entities.Games;
+import main.model.Games;
 import main.repositories.GameRepository;
 
 public class GameService {

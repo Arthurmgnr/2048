@@ -1,4 +1,4 @@
-package main.entities;
+package main.model;
 
 public class Games {
     private String username;

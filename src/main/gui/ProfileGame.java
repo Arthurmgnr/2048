@@ -1,7 +1,7 @@
 package main.gui;
 
-import main.entities.User;
-import main.entities.UserGamesDetails;
+import main.model.User;
+import main.model.UserGamesDetails;
 import main.services.ProfileGameService;
 import main.utils.*;
 

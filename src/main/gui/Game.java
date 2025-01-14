@@ -1,7 +1,7 @@
 package main.gui;
 
 import main.core.Plateau;
-import main.entities.Games;
+import main.model.Games;
 import main.services.GameService;
 import main.utils.*;
 
