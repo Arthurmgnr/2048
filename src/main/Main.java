@@ -1,6 +1,6 @@
 package main;
 
-import main.gui.*;
+import main.gui.Home;
 
 import javax.swing.SwingUtilities;
 import java.net.URISyntaxException;
@@ -8,20 +8,16 @@ import java.net.URISyntaxException;
 public class Main {
 
     public static void main(String[] args) throws URISyntaxException {
+        // Ouverture de la connexion a la DB
         DBConnection.openConnection();
-//        System.out.println();
 
+        // Lancement de l'application avec la fenetre Home
         SwingUtilities.invokeLater(() -> {
             Home frame = new Home();
-//            Register frame = new Register();
-//            Login frame = new Login();
-//            ProfileGame frame = new ProfileGame("TestUser", true, true);
-//            Profile frame = new Profile("Arthur");
-//            EditProfile frame = new EditProfile("TestUser");
-//            Game frame = new Game("TestUser");
             frame.setVisible(true);
         });
 
+        // Fermeture de la connexion a la DB
         Runtime.getRuntime().addShutdownHook(new Thread(DBConnection::closeConnection));
     }
 }

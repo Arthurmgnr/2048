@@ -10,8 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProfileGameRepository {
+    // Permet de recuperer la connexion vers la DB
     private final Connection connection = DBConnection.getConnection();
 
+    // Recupere le meilleur score du joueur
     public UserGamesDetails getBestScore(String username) {
         String query = """
                         SELECT MAX(score)\s
@@ -32,6 +34,7 @@ public class ProfileGameRepository {
         return user;
     }
 
+    // Recupere les informations du joueur dans la table Users
     public User getUserDetails(String username) {
         String query = """
                         SELECT avatar, lang\s

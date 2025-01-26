@@ -3,23 +3,34 @@ package main.gui;
 import main.constants.LanguageConstants;
 import main.model.User;
 import main.services.EditProfileService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.JLabelPersonalized;
+import main.utils.TranslationManager;
+import main.utils.ImageIconPersonalized;
+import main.utils.JButtonWithIcon;
+import main.utils.JButtonPersonalized;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.Box;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class EditProfile extends JFrame {
+    // Permet d'appeler le Service associe
     private final EditProfileService editProfileService = new EditProfileService();
+    // Indice pour se deplacer dans la liste des avatar
     private int actualAvatar;
+    // Langue courante
     private String lang;
 
     public EditProfile(String username) {
         Utils.setFrameParameters(this);
 
-        // Get userDetails
         User user = editProfileService.getUserDetails(username);
 
         JPanel mainPanel = new JPanel();
@@ -42,7 +53,7 @@ public class EditProfile extends JFrame {
         // Label Username
         JLabelPersonalized lUsername = new JLabelPersonalized(username, 30, true);
 
-        // --------------------
+        // Recupere la liste des avatars
         List<String> listOfAvatar = Utils.listOfAvatars();
         actualAvatar = listOfAvatar.indexOf(user.getAvatar());
 
@@ -116,7 +127,7 @@ public class EditProfile extends JFrame {
         bBack.setBothSize(maxDimension);
         bSave.setBothSize(maxDimension);
 
-        // Language
+        // Permet de modifier la langue du joueur avec un menu deroulant
         JPanel comboBoxLanguagePanel = new JPanel();
         comboBoxLanguagePanel.setLayout(new BoxLayout(comboBoxLanguagePanel, BoxLayout.X_AXIS));
 

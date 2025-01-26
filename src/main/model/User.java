@@ -2,6 +2,9 @@ package main.model;
 
 import java.sql.Timestamp;
 
+/**
+ * Classe qui implemente la structure de la table User
+ */
 public class User {
     private String username;
     private Timestamp dateTime;

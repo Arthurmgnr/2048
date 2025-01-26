@@ -2,6 +2,10 @@ package main.constants;
 
 import main.utils.TranslationManager;
 
+/**
+ * Permet de definir les messages a renvoyer dans les fenetres Login et Register selon que le joueur ne peut pas se
+ * creer un compte ou se connecter, ou bien que la connexion ou la creation a reussi
+ */
 public enum MessageConstants {
     USERNAME_EMPTY(TranslationManager.get("messageConstants.usernameEmpty"), false),
     USERNAME_ALREADY_EXISTS(TranslationManager.get("messageConstants.usernameAlreadyExists"), false),

@@ -3,7 +3,13 @@ package main.gui;
 import main.model.User;
 import main.model.UserGamesDetails;
 import main.services.ProfileGameService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.TranslationManager;
+import main.utils.ImageIconPersonalized;
+import main.utils.JLabelPersonalized;
+import main.utils.JButtonWithIcon;
+import main.utils.JButtonPersonalized;
+import main.utils.JButtonProfileGame;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -137,7 +143,7 @@ public class ProfileGame extends JFrame {
         buttonPanel.add(lProfile);
         buttonPanel.add(lGame);
 
-        // Label Welcome
+        // Label Welcome pour dire bienvenue au joueur, seulement la premiere fois qu'on arrive sur cette fenetre
         if (message) {
             JLabel lWelcome = new JLabel(
                     newUser
@@ -158,6 +164,7 @@ public class ProfileGame extends JFrame {
 
             centerPanel.add(lWelcome, centerPanel.getComponents().length - 1);
 
+            // Le message s'affiche pendant 3s et ensuite on l'efface
             Timer timer = new Timer(3000, e -> {
                 lWelcome.setText("");
                 lWelcome.setBackground(null);

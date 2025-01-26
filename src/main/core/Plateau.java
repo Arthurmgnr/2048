@@ -6,20 +6,20 @@ import java.util.Random;
 import java.util.Collections;
 
 public class Plateau {
+    // Liste de listes de cases
     private final ArrayList<ArrayList<Case>> cases = new ArrayList<>();
+    // Permet de savoir si le joueur a atteint 2048
     private boolean atteint2048 = false;
+    // Nombre de cases du plateau
     private final int cote = 4;
+    // Score du joueur au cours de la partie
     private int score = 0;
+    // Nombre de coups du joueur au cours de la partie
     private int nbCoups = 0;
 
+    // Permet de remplir le plateau de cases vides et 2 cases numerotees avec un 2 ou un 4
     public Plateau() {
         int i1, j1, i2, j2;
-//        int i3, j3, i4, j4;
-//        i1 = 0;
-//        j1 = 0;
-//        i2 = 0;
-//        j2 = 1;
-//        i3 = 0; j3 = 2; i4 = 0; j4 = 3;
         Random rand = new Random();
         do {
             i1 = rand.nextInt(4);
@@ -37,27 +37,13 @@ public class Plateau {
                     int valeur = rand.nextDouble() < 0.9 ? 2 : 4;
                     ligne.add(new CaseNumero(valeur));
                 }
-//                if (i == i1 && j == j1) ligne.add(new CaseNumero(1024));
-//                else if (i == i2 && j == j2) ligne.add(new CaseNumero(1024));
-//                else if (i == i3 && j == j3) ligne.add(new CaseNumero(4));
-//                else if (i == i4 && j == j4) ligne.add(new CaseNumero(4));
                 else ligne.add(new CaseVide());
             }
             cases.add(ligne);
         }
-
-        // Cas de test de Defaite
-//        ArrayList<Case> ligne1 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
-//        ArrayList<Case> ligne2 = new ArrayList<>(Arrays.asList(new CaseNumero(8), new CaseNumero(16), new CaseNumero(32), new CaseNumero(64)));
-//        ArrayList<Case> ligne3 = new ArrayList<>(Arrays.asList(new CaseNumero(64), new CaseNumero(32), new CaseNumero(16), new CaseNumero(8)));
-////        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(128), new CaseNumero(256), new CaseNumero(512), new CaseVide()));
-//        ArrayList<Case> ligne4 = new ArrayList<>(Arrays.asList(new CaseNumero(512), new CaseNumero(512), new CaseNumero(1024), new CaseVide()));
-//        cases.add(ligne1);
-//        cases.add(ligne2);
-//        cases.add(ligne3);
-//        cases.add(ligne4);
     }
 
+    // Permet de savoir si le joueur a atteint 2048
     public boolean joueurAtteint2048() {
         for (int i = 0; i < cote; i++) {
             for (int j = 0; j < cote; j++) {
@@ -70,6 +56,10 @@ public class Plateau {
         return false;
     }
 
+    /**
+     * Permet de definir toutes les variables necessaires au deplacement et la fusion selon la direction choisie par le joueur
+     * @param fleche la direction choisie par le joueur
+     */
     public void deplacement(String fleche) {
         int start_i_move = 0, end_i = 0, step_i = 0, direction_i = 0, start_i_fusion = 0, direction_i_fusion = 0;
         int start_j_move = 0, end_j = 0, step_j = 0, direction_j = 0, start_j_fusion = 0, direction_j_fusion = 0;
@@ -99,12 +89,26 @@ public class Plateau {
         nbCoups++;
     }
 
+    /**
+     * Permet de deplacer toutes les cases du plateau dans la direction choisie
+     * @param start_i_move debut de la boucle pour le premier indice
+     * @param end_i fin de la boucle pour le premier indice
+     * @param step_i increment pour le premier indice (+1 ou -1)
+     * @param direction_i increment pour obtenir la valeur du premier indice de la case ou l'on doit deplacer la case courante (+1 ou -1)
+     * @param start_j_move debut de la boucle pour le deuxieme indice
+     * @param end_j fin de la boucle pour le deuxieme indice
+     * @param step_j increment pour le deuxieme indice (+1 ou -1)
+     * @param direction_j increment pour obtenir la valeur du deuxieme indice de la case ou l'on doit deplacer la case courante (+1 ou -1)
+     */
     private void deplacerCase(int start_i_move, int end_i, int step_i, int direction_i, int start_j_move, int end_j, int step_j, int direction_j) {
+        // On parcourt toutes les cases
         for (int i = start_i_move; i != end_i; i += step_i) {
             for (int j = start_j_move; j != end_j; j += step_j) {
+                // Des qu'on trouve un numero
                 if (cases.get(i).get(j) instanceof CaseNumero) {
                     int last_i = i, last_j = j;
 
+                    // On parcourt les cases de la meme ligne ou colonne pour savoir avec laquelle on doit echanger
                     while (last_i + direction_i >= 0 && last_i + direction_i < 4 &&
                             last_j + direction_j >= 0 && last_j + direction_j < 4 &&
                             cases.get(last_i + direction_i).get(last_j + direction_j) instanceof CaseVide) {
@@ -112,6 +116,7 @@ public class Plateau {
                         last_j += direction_j;
                     }
 
+                    // Si on a trouve une case vide alors on echange
                     if (cases.get(last_i).get(last_j) instanceof CaseVide) {
                         cases.get(last_i).set(last_j, new CaseNumero(((CaseNumero) cases.get(i).get(j)).getValeur()));
                         cases.get(i).set(j, new CaseVide());
@@ -121,13 +126,27 @@ public class Plateau {
         }
     }
 
+    /**
+     * Permet de fusionner les cases selon la direction choisie
+     * @param start_i_fusion debut de la boucle pour le premier indice
+     * @param end_i fin de la boucle pour le premier indice
+     * @param step_i increment pour le premier indice (+1 ou -1)
+     * @param direction_i_fusion increment pour obtenir la valeur du premier indice de la case ou l'on doit deplacer la case courante (+1 ou -1)
+     * @param start_j_fusion debut de la boucle pour le deuxieme indice
+     * @param end_j fin de la boucle pour le deuxieme indice
+     * @param step_j increment pour le deuxieme indice (+1 ou -1)
+     * @param direction_j_fusion increment pour obtenir la valeur du deuxieme indice de la case ou l'on doit deplacer la case courante (+1 ou -1)
+     */
     private void fusionCase(int start_i_fusion, int end_i, int step_i, int direction_i_fusion, int start_j_fusion, int end_j, int step_j, int direction_j_fusion) {
+        // On parcourt toutes les cases
         for (int i = start_i_fusion; i != end_i; i += step_i) {
             for (int j = start_j_fusion; j != end_j; j += step_j) {
+                // Des qu'on trouve un numero
                 if (cases.get(i).get(j) instanceof CaseNumero) {
                     int next_i = i + direction_i_fusion;
                     int next_j = j + direction_j_fusion;
 
+                    // Si on trouve bien une case numero de meme valeur juste a cote, alors on fusionne et augmente le score
                     if (-1 < next_i && next_i < 4 && -1 < next_j && next_j < 4 &&
                             cases.get(next_i).get(next_j) instanceof CaseNumero &&
                             ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(next_i).get(next_j)).getValeur()) {
@@ -135,13 +154,13 @@ public class Plateau {
                         cases.get(i).set(j, new CaseNumero(newValeur));
                         cases.get(i + direction_i_fusion).set(j + direction_j_fusion, new CaseVide());
                         score += newValeur;
-
                     }
                 }
             }
         }
     }
 
+    // Permet d'ajouter un 2 ou un 4 au hasard dans la grille
     public void ajoutCase() {
         Random rand = new Random();
         int i, j;
@@ -153,28 +172,41 @@ public class Plateau {
         cases.get(i).set(j, new CaseNumero(valeur));
     }
 
+    // Permet de savoir si le joueur ne peut plus jouer : plateau plein et plus de deplacement possible
     public boolean gameOver() {
+        // On parcourt toutes les cases
         for (int i = 0; i < cote; i++) {
             for (int j = 0; j < cote; j++) {
+                // Si on trouve une case vide, alors le joueur peut encore jouer
                 if (cases.get(i).get(j) instanceof CaseVide) return false;
+                // Si on trouve 2 cases de meme valeur cote a cote en ligne, alors le joueur peut encore jouer
                 if (i < cote - 1 &&
                         cases.get(i).get(j) instanceof CaseNumero &&
                         cases.get(i + 1).get(j) instanceof CaseNumero &&
                         ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i + 1).get(j)).getValeur()) return false;
+                // Si on trouve 2 cases de meme valeur cote a cote en colonne, alors le joueur peut encore jouer
                 if (j < cote - 1 &&
                         cases.get(i).get(j) instanceof CaseNumero &&
                         cases.get(i).get(j + 1) instanceof CaseNumero &&
                         ((CaseNumero) cases.get(i).get(j)).getValeur() == ((CaseNumero) cases.get(i).get(j + 1)).getValeur()) return false;
             }
         }
+        // Arrive ici, le joueur ne peut plus jouer car aucune condition ci-dessus n'est remplie
         return true;
     }
 
+    // Permet de verifier que le joueur peut encore effectuer un deplacement
     public boolean deplacementAFaire(String fleche) {
+        // Definition des variables permettant de factoriser le code
         int start = 0, actif_i = 0, actif_j = 0, direction_i = 0, direction_j = 0;
 
+        // Liste de booleens de taille 4 car on va parcourir soit par ligne soit par colonne, dans tous les cas on a besoin de 4 valeurs
+        // Imaginons que l'on verifie selon la direction vers la droite alors :
+        //      Si le premier element est true, cela signifie que dans la premiere ligne, un deplacement est possible
+        //      Si le premier element est false, cela signifie que dans la premiere ligne, aucun deplacement n'est possible
         ArrayList<Boolean> deplacementBool = new ArrayList<>(Collections.nCopies(4, true));
 
+        // Selon la direction, on met a jour ou non les variables
         switch (fleche) {
             case "Down":
                 start = 3; actif_j = 1; direction_i = -1;
@@ -190,39 +222,53 @@ public class Plateau {
                 break;
         }
 
+        // On parcourt soit par ligne soit par colonne
         for (int ind = 0; ind < cote; ind++) {
+            // On recupere les 4 cases qui constituent la ligne ou la colonne
             Case case1 = cases.get(ind * actif_i + (1 - actif_i) * (start)).get(ind * actif_j + (1 - actif_j) * (start));
             Case case2 = cases.get(ind * actif_i + (1 - actif_i) * (start + direction_i)).get(ind * actif_j + (1 - actif_j) * (start + direction_j));
             Case case3 = cases.get(ind * actif_i + (1 - actif_i) * (start + direction_i * 2)).get(ind * actif_j + (1 - actif_j) * (start + direction_j * 2));
             Case case4 = cases.get(ind * actif_i + (1 - actif_i) * (start + direction_i * 3)).get(ind * actif_j + (1 - actif_j) * (start + direction_j * 3));
 
+            // On met soit true soit false a la position correspondante
             deplacementBool.set(ind, testDeplacement(case1, case2, case3, case4));
         }
 
+        // On renvoit true ou false, selon qu'un deplacement est possible ou non
         return deplacementBool.contains(true);
     }
 
+    /**
+     * Permet de tester toutes les combinaisons possibles de 4 cases pour savoir si un deplacement est possible
+     * @param case1 premiere case
+     * @param case2 deuxieme case
+     * @param case3 troisieme case
+     * @param case4 quatrieme case
+     * @return true ou false selon qu'un deplacement est possible ou non
+     */
     private boolean testDeplacement(Case case1, Case case2, Case case3, Case case4) {
-        // ∅ ∅ ∅ ∅
+        // ∅ ∅ ∅ ∅ => 4 cases vides => pas de deplacement
         if (case1 instanceof CaseVide && case2 instanceof CaseVide && case3 instanceof CaseVide && case4 instanceof CaseVide) return false;
-        // 2 ∅ ∅ ∅
+        // 2 ∅ ∅ ∅ => 1 numero et 3 cases vides => pas de deplacement
         if (case1 instanceof CaseNumero && case2 instanceof CaseVide && case3 instanceof CaseVide && case4 instanceof CaseVide) return false;
-        // 2 2 ∅ ∅
+        // 2 4 ∅ ∅ => 2 numeros differents et 2 cases vides => pas de deplacement
         if (case1 instanceof CaseNumero && case2 instanceof CaseNumero && case3 instanceof CaseVide && case4 instanceof CaseVide &&
                 ((CaseNumero) case1).getValeur() != ((CaseNumero) case2).getValeur()) return false;
-        // 2 2 2 ∅
+        // 2 4 8 ∅ => 3 numeros differents et 1 case vide => pas de deplacement
         if (case1 instanceof CaseNumero && case2 instanceof CaseNumero && case3 instanceof CaseNumero && case4 instanceof CaseVide &&
                 ((CaseNumero) case1).getValeur() != ((CaseNumero) case2).getValeur() &&
                 ((CaseNumero) case2).getValeur() != ((CaseNumero) case3).getValeur()) return false;
-        // 2 2 2 2
+        // 2 4 8 16 => 4 numeros differents => pas de deplacement
         if (case1 instanceof CaseNumero && case2 instanceof CaseNumero && case3 instanceof CaseNumero && case4 instanceof CaseNumero &&
                 ((CaseNumero) case1).getValeur() != ((CaseNumero) case2).getValeur() &&
                 ((CaseNumero) case2).getValeur() != ((CaseNumero) case3).getValeur() &&
                 ((CaseNumero) case3).getValeur() != ((CaseNumero) case4).getValeur()) return false;
 
+        // Dans toutes les autres configurations, un deplacement est possible
         return true;
     }
 
+    // Permet d'appeler la methode afficher de chaque case pour afficher tout le plateau
     public void afficher(ArrayList<ArrayList<JPanel>> listOfPanel) {
         for (int i = 0; i < cote; i++) {
             for (int j = 0; j < cote; j++) {
@@ -231,6 +277,7 @@ public class Plateau {
         }
     }
 
+    // Permet de recuperer la valeur maximale des tuiles du plateau
     public int getBestTuile() {
         int max = 0;
         for (int i = 0; i < cote; i++) {

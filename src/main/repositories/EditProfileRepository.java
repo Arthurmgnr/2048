@@ -3,11 +3,16 @@ package main.repositories;
 import main.DBConnection;
 import main.model.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EditProfileRepository {
+    // Permet de recuperer la connexion vers la DB
     private final Connection connection = DBConnection.getConnection();
 
+    // Recupere les informations du joueur dans la table Users
     public User getUserDetails(String username) {
         String query = """
                         SELECT username, avatar, creationdate, lang\s
@@ -31,6 +36,7 @@ public class EditProfileRepository {
         return user;
     }
 
+    // Permet de mettre a jour les informations du joueur
     public boolean updateUser(User user) {
         String query = """
                         UPDATE users\s

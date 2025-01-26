@@ -3,9 +3,20 @@ package main.gui;
 import main.constants.LanguageConstants;
 import main.constants.MessageConstants;
 import main.services.RegisterService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.TranslationManager;
+import main.utils.JLabelPersonalized;
+import main.utils.ImageIconPersonalized;
+import main.utils.JButtonWithIcon;
+import main.utils.JTextFieldPersonalized;
+import main.utils.JButtonPersonalized;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.Box;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -15,9 +26,13 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Register extends JFrame {
+    // Permet d'appeler le Service associe
     private final RegisterService registerService = new RegisterService();
+    // Timer pour gerer le temps d'apparition du message d'erreur
     private final Timer timer;
+    // Indice pour gerer la liste des avatar
     private int actualAvatar = 0;
+    // Permet de changer la langue du joueur
     private String lang;
 
     public Register() {
@@ -114,6 +129,7 @@ public class Register extends JFrame {
             }
         });
 
+        // Le timer s'affiche pendant 5s et ensuite on efface le texte
         timer = new Timer(5000, e -> lError.setText(""));
         timer.setRepeats(false);
 
@@ -138,7 +154,7 @@ public class Register extends JFrame {
         bRegister.setBothSize(maxDimension);
         bBack.setBothSize(maxDimension);
 
-        // Language
+        // Permet de modifier la langue du joueur avec un menu deroulant
         JPanel comboBoxLanguagePanel = new JPanel();
         comboBoxLanguagePanel.setLayout(new BoxLayout(comboBoxLanguagePanel, BoxLayout.X_AXIS));
 

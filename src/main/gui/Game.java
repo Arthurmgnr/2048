@@ -3,7 +3,12 @@ package main.gui;
 import main.core.Plateau;
 import main.model.Games;
 import main.services.GameService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.TranslationManager;
+import main.utils.JLabelPersonalizedForGridLayout;
+import main.utils.ImageIconPersonalized;
+import main.utils.JLabelPersonalized;
+import main.utils.JButtonWithIcon;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Game extends JFrame {
+    // Permet d'appeler le Service associe
     private final GameService gameService = new GameService();
     private final JPanel mainPanel;
     private final JLabelPersonalizedForGridLayout lScoreJoueur;
@@ -139,6 +145,7 @@ public class Game extends JFrame {
         gameDetailsPanelCenter.add(gameDetailsPanel);
         gameDetailsPanelCenter.add(Box.createHorizontalGlue());
 
+        // Creation du plateau
         plateauPanel = new JPanel(new GridLayout(4, 4, Utils.margeCases, Utils.margeCases)) {
             @Override
             public void paintComponent(Graphics g) {
@@ -155,6 +162,7 @@ public class Game extends JFrame {
         plateauPanel.setPreferredSize(new Dimension(Utils.cotePlateau, Utils.cotePlateau));
         plateauPanel.setMaximumSize(new Dimension(Utils.cotePlateau, Utils.cotePlateau));
 
+        // Ajout des cases dans le plateau
         for (int i = 0; i < 4; i++) {
             ArrayList<JPanel> list = new ArrayList<>();
             for (int j = 0; j < 4; j++) {
@@ -201,6 +209,7 @@ public class Game extends JFrame {
         });
     }
 
+    // Permet d'indiquer a la methode deroulerPartie quelle direction est choisie
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_DOWN:
@@ -218,6 +227,7 @@ public class Game extends JFrame {
         }
     }
 
+    // Effectue toute la logique de deplacement et fusion
     public void deroulerPartie(String fleche) {
         if (plateau.deplacementAFaire(fleche)) {
             // On effectue le deplacement
@@ -228,6 +238,7 @@ public class Game extends JFrame {
             mettreAJour();
             // On verifie si le joueur a atteint 2048
             if (plateau.joueurAtteint2048() && !plateau.getatteint2048()) {
+                // On ouvre la fenetre de dialogue
                 String message = Utils.getMessageFin(false, true, plateau.getBestTuile());
                 String[] options = {
                         TranslationManager.get("game.win.quit.button"),
@@ -241,25 +252,29 @@ public class Game extends JFrame {
                 };
                 int choice = new JDialogPersonalized(Game.this, message, options, toolTipTexts).getReponse();
 
+                // Le joueur continue a jouer
                 if (choice == 2) {
                     plateau.setatteint2048(true);
                     mainPanel.requestFocusInWindow();
-                } else {
+                } else { // Le joueur arrete la partie en cours
                     // Enregistrement dans la BDD
                     Games games = new Games(username, plateau.getScore(), plateau.getNbCoups(), plateau.getBestTuile(), true);
 
                     gameService.registerGames(games);
 
+                    // Fermeture de la fenetre
                     dispose();
+                    // Le joueur arrete de joueur
                     if (choice == 0) {
                         new ProfileGame(username, false, false).setVisible(true);
-                    } else {
+                    } else { // Le joueur recommence une partie
                         new Game(username).setVisible(true);
                     }
                 }
             }
             // On verifie si le joueur ne peut plus effectuer de deplacement
             if (plateau.gameOver()) {
+                // On ouvre la fenetre de dialogue
                 String message = Utils.getMessageFin(true, plateau.getatteint2048(), plateau.getBestTuile());
                 String[] options = {
                         TranslationManager.get("game.lost.quit.button"),
@@ -276,16 +291,19 @@ public class Game extends JFrame {
 
                 gameService.registerGames(games);
 
+                // On ferme la fenetre
                 dispose();
+                // Le joueur recommence une partie
                 if (choice == 1) {
                     new Game(username).setVisible(true);
-                } else {
+                } else { // Le joueur arrete de jouer
                     new ProfileGame(username, false, false).setVisible(true);
                 }
             }
         }
     }
 
+    // Permet de mettre a jour les cases du plateau ainsi que le score et le nombre de coups
     public void mettreAJour() {
         plateau.afficher(listOfPanel);
 

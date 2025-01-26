@@ -2,7 +2,11 @@ package main.gui;
 
 import main.constants.MessageConstants;
 import main.services.LoginService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.TranslationManager;
+import main.utils.JLabelPersonalized;
+import main.utils.JTextFieldPersonalized;
+import main.utils.JButtonPersonalized;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +19,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Login extends JFrame {
+    // Permet d'appeler le Service associe
     private final LoginService loginService = new LoginService();
+    // Timer pour gerer le temps d'apparition du message d'erreur
     private final Timer timer;
 
     public Login() {
@@ -70,6 +76,7 @@ public class Login extends JFrame {
             }
         });
 
+        // Le timer s'affiche pendant 5s et ensuite on efface le texte
         timer = new Timer(5000, e -> lError.setText(""));
         timer.setRepeats(false);
 

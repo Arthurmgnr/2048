@@ -3,12 +3,16 @@ package main.utils;
 import java.util.Map;
 import java.util.HashMap;
 
+// Permet de gerer les traductions
 public class TranslationManager {
+    // Stocke les traductions anglaises
     private static final Map<String, String> en = new HashMap<>();
+    // Stocke les traductions francaises
     private static final Map<String, String> fr = new HashMap<>();
+    // Permet de recuperer les traductions de la langue courante
     private static Map<String, String> currentLanguage = en;
 
-    // Home
+    // Fenetre Home
     static {
         en.put("home.login.button", "Login");
         en.put("home.login.tooltip", "Click here to go to the login screen");
@@ -21,7 +25,7 @@ public class TranslationManager {
         fr.put("home.register.tooltip", "Cliquez ici pour aller à l'écran d'inscription");
     }
 
-    // Register
+    // Fenetre Register
     static {
         en.put("register.register.title", "Register");
         en.put("register.username.label", "Username");
@@ -44,7 +48,7 @@ public class TranslationManager {
         fr.put("register.language.label", "Langue");
     }
 
-    // Login
+    // Fenetre Login
     static {
         en.put("login.login.title", "Login");
         en.put("login.username.label", "Username");
@@ -61,7 +65,7 @@ public class TranslationManager {
         fr.put("login.back.tooltip", "Revenir à l'écran d'accueil");
     }
 
-    // ProfileGame
+    // Fenetre ProfileGame
     static {
         en.put("profileGame.home.tooltip", "Return to home screen");
         en.put("profileGame.bestScore.label", "Best score");
@@ -84,7 +88,7 @@ public class TranslationManager {
         fr.put("profileGame.message.oldUser", "Bon retour parmi nous ");
     }
 
-    // Profile
+    // Fenetre Profile
     static {
         en.put("profile.edit.tooltip", "Click here to edit your profile information");
         en.put("profile.creationDate.label", "Creation date");
@@ -111,7 +115,7 @@ public class TranslationManager {
         fr.put("profile.game.tooltip", "Aller à l'écran de jeu");
     }
 
-    // EditProfile
+    // Fenetre EditProfile
     static {
         en.put("editProfile.title", "Profile editing");
         en.put("editProfile.previousAvatar.tooltip", "Click here to display the previous avatar");
@@ -130,7 +134,7 @@ public class TranslationManager {
         fr.put("editProfile.save.tooltip", "Enregistrer les modifications");
     }
 
-    // Game
+    // Fenetre Game
     static {
         en.put("game.exit.tooltip", "Exit the game");
         en.put("game.score.label", "Score");
@@ -173,7 +177,7 @@ public class TranslationManager {
         fr.put("game.lost.retry.tooltip", "Recommencer une nouvelle partie");
     }
 
-    // Win/Lost message
+    // Message de victoire et de defaite
     static {
         en.put("messageWinLost.reached2048", "Well done, you've reached 2048, but don't stop there!");
         en.put("messageWinLost.notReached2048", "Too bad... you didn't reach 2048, but ");
@@ -218,7 +222,7 @@ public class TranslationManager {
         fr.put("messageWinLost.131072", "tu écris l'histoire du 2048 !");
     }
 
-    // MessageConstants
+    // Message pour l'utilisateur lors de l'inscription ou la connexion
     static {
         en.put("messageConstants.usernameEmpty", "Username cannot be empty!");
         en.put("messageConstants.usernameAlreadyExists", "Username already exists!");
@@ -235,13 +239,17 @@ public class TranslationManager {
         fr.put("messageConstants.loginSuccessful", "Connexion réussie");
     }
 
-    // Date
+    // Pour avoir l'affichage de la date dans le bon format selon la langue
     static {
         en.put("date.format", "MMMM dd, yyyy");
 
         fr.put("date.format", "d MMMM yyyy");
     }
 
+    /**
+     * Permet de changer le dictionnaire courant
+     * @param languageCode identifiant de la langue qui devient langue courante
+     */
     public static void setLanguage(String languageCode) {
         switch (languageCode) {
             case "FR":
@@ -254,7 +262,12 @@ public class TranslationManager {
         }
     }
 
+    /**
+     * Permet de recuperer le texte dans la langue courante
+     * @param key la cle d'identification de la traduction
+     * @return le texte dans la langue courante
+     */
     public static String get(String key) {
-        return currentLanguage.getOrDefault(key, "???");
+        return currentLanguage.getOrDefault(key, "Error");
     }
 }

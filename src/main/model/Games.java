@@ -1,5 +1,8 @@
 package main.model;
 
+/**
+ * Classe qui implemente la structure de la table Games
+ */
 public class Games {
     private String username;
     private final int score;

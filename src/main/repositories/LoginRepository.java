@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginRepository {
+    // Permet de recuperer la connexion vers la DB
     private final Connection connection = DBConnection.getConnection();
 
+    // Verifie si l'identifiant existe deja
     public boolean usernameDoesntExists(String username) {
         String query = "SELECT COUNT(*) \n" +
                         "FROM users \n" +

@@ -18,9 +18,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class JDialogPersonalized extends JDialog {
+    // Permet de savoir et de renvoyer le choix du joueur
     private static int choice;
 
     public JDialogPersonalized(JFrame parent, String message, String[] options, String[] toolTipTexts) {
+        // Recupere la largeur maximale parmis tous les boutons que l'on doit afficher
         Dimension maxDimension = new Dimension(0, 0);
         for (int i = 0; i < options.length; i++) {
             JButtonPersonalized bOption = new JButtonPersonalized(options[i], toolTipTexts[i]);
@@ -32,6 +34,7 @@ public class JDialogPersonalized extends JDialog {
             }
         }
 
+        // Parametres de la fenetre
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         int testWidth = (options.length + 1) * maxDimension.width + (options.length - 1) * 50;
         int width = Math.max(testWidth, (int) (0.5 * Utils.frameWidth));
@@ -58,7 +61,7 @@ public class JDialogPersonalized extends JDialog {
         tMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
         tMessage.setMaximumSize(new Dimension((int) (0.8 * getWidth()), tMessage.getPreferredSize().height));
 
-        // JButton for all options
+        // Creation d'un bouton pour chaque option
         for (int i = 0; i < options.length; i++) {
             JButtonPersonalized bOption = new JButtonPersonalized(options[i], toolTipTexts[i]);
             bOption.setFont(new Font("Arial", Font.BOLD, 20));
@@ -95,6 +98,7 @@ public class JDialogPersonalized extends JDialog {
         });
     }
 
+    // Permet d'afficher la fenetre de dialogue et renvoyer l'option choisie
     public int getReponse() {
         setVisible(true);
         return choice;

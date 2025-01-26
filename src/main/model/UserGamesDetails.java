@@ -1,5 +1,8 @@
 package main.model;
 
+/**
+ * Classe qui permet de calculer les informations relatives a l'ensemble des parties d'un joueur
+ */
 public class UserGamesDetails {
     private String username;
     private int bestScore;

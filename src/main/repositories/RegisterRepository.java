@@ -3,11 +3,17 @@ package main.repositories;
 import main.model.User;
 import main.DBConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class RegisterRepository {
+    // Permet de recuperer la connexion vers la DB
     private final Connection connection = DBConnection.getConnection();
 
+    // Verifie si l'identifiant existe deja
     public boolean usernameExists(String username) {
         String query = """
                         SELECT COUNT(*)\s
@@ -26,6 +32,7 @@ public class RegisterRepository {
         return false;
     }
 
+    // Creation du compte du joueur
     public boolean saveUser(User user) {
         String query = """
                         INSERT INTO users (username, creationdate, avatar, lang)

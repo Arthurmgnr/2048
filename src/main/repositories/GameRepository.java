@@ -3,11 +3,16 @@ package main.repositories;
 import main.DBConnection;
 import main.model.Games;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class GameRepository {
+    // Permet de recuperer la connexion vers la DB
     private final Connection connection = DBConnection.getConnection();
 
+    // Recupere le chemin d'acces a l'avatar du joueur
     public String getUserAvatar(String username) {
         String query = """
                         SELECT avatar\s
@@ -27,6 +32,7 @@ public class GameRepository {
         return userAvatar;
     }
 
+    // Recupere le meilleur score du joueur
     public int getUserBestScore(String username) {
         String query = """
                         SELECT MAX(score) AS bestScore\s
@@ -46,6 +52,7 @@ public class GameRepository {
         return userBestScore;
     }
 
+    // Enregistre la partie dans la DB
     public boolean registerGames(Games games) {
         String query = """
                         INSERT INTO games (username, score, moves, bestTile, win)

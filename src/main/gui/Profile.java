@@ -4,7 +4,13 @@ import main.constants.LanguageConstants;
 import main.model.User;
 import main.model.UserGamesDetails;
 import main.services.ProfileService;
-import main.utils.*;
+import main.utils.Utils;
+import main.utils.TranslationManager;
+import main.utils.JButtonProfileGame;
+import main.utils.JLabelPersonalized;
+import main.utils.ImageIconPersonalized;
+import main.utils.JButtonWithIcon;
+import main.utils.JLabelPersonalizedForGridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,8 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Profile extends JFrame {
-
-    // Essayer de mettre une colonne vide entre les colonnes du GridLayout
 
     public Profile(String username) {
         Utils.setFrameParameters(this);
